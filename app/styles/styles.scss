@@ -1,0 +1,30 @@
+@import "variables";
+
+p {
+  //background-color: $impact-blue;
+  font-size: 1em;
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+
+  &:after {
+    content: "]";
+  }
+
+  &:before {
+    content: "[";
+  }
+
+  li {
+    display: inline;
+  }
+
+  li + li:before {
+    content: "|";
+    padding-right: 0.3em;
+  }
+}
