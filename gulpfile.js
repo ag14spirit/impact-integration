@@ -33,7 +33,8 @@ gulp.task('serve', ['sass'], function () {
 
     // watch for changes within the scss files and then re-call the sass task
     gulp.watch('app/styles/*.scss', ['sass']);
-    gulp.watch('app/*.html').on('change', browserSync.reload);
+    gulp.watch('app/**/*.html').on('change', browserSync.reload);
+    gulp.watch('app/**/*.js').on('change', browserSync.reload);
 });
 
 
