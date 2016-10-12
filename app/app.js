@@ -14,7 +14,7 @@
 
 
 var app = angular.module('app', [
-    'ui.router', 'ui.router.stateHelper',
+    'ui.router', 'ui.router.stateHelper', 'ngMaterial', 'ngAnimate', 'ngResource',
     'app.applications',
     'app.view1'
 ]).config(function($stateProvider, stateHelperProvider, $urlRouterProvider) {
@@ -29,7 +29,8 @@ var app = angular.module('app', [
             name: 'applications',
             url: '/applications',
             templateUrl: '/applications/applications.html',
-            controller: 'ApplicationsController'
+            controller: 'ApplicationsController',
+            controllerAs: 'vm'
         })
         .state({
             name: 'otherwise',

@@ -10,6 +10,7 @@ p {
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
   padding: 0 0 0.5em;
+  text-align: center;
 
   &:after {
     content: "]";
@@ -28,3 +29,5 @@ p {
     padding-right: 0.3em;
   }
 }
+
+.active { color: red; font-weight: bolder; }

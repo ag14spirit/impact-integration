@@ -5,7 +5,8 @@ p {
   list-style: none;
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
-  padding: 0 0 0.5em; }
+  padding: 0 0 0.5em;
+  text-align: center; }
   .menu:after {
     content: "]"; }
   .menu:before {
@@ -15,3 +16,7 @@ p {
   .menu li + li:before {
     content: "|";
     padding-right: 0.3em; }
+
+.active {
+  color: red;
+  font-weight: bolder; }
