@@ -1,0 +1,66 @@
+
+
+<md-content layout="column">
+    <div id="sessionSettings" ng-show="vm.sessionSelActive">
+      <md-list ng-cloak>
+        <md-header class="md-no-sticky">Sessions:</md-header>
+        <md-list-item  ng-repeat="session in vm.sessions">
+          <p>{{session}}</p>
+          <md-button class="md-warn" ng-click="vm.removeSession(session)">Delete</md-button>
+        </md-list-item>
+      </md-list>
+      <div layout="row" layout-align="start start">
+        <md-input-container>
+            <label>New Session</label>
+            <input  ng-model="vm.newSession.name">
+        </md-input-container>
+        <md-button class="md-raised" ng-click="vm.addSession()">Add Session</md-button>
+      </div>
+      <md-button class="md-raised md-primary" ng-click="vm.sessionNextClick()">Next</md-button>
+    </div>
+
+    <div id="tribeNames" ng-show="vm.tribeSelActive">
+      <md-list ng-cloak>
+        <md-header class="md-no-sticky">Camps:</md-header>
+        <md-list-item  ng-repeat="tribe in vm.tribes">
+          <p>{{tribe}}</p>
+          <md-button class="md-warn" ng-click="vm.removeTribe(tribe)">Delete</md-button>
+        </md-list-item>
+      </md-list>
+      <div layout="row" layout-align="start start">
+        <md-input-container>
+            <label>New Tribe</label>
+            <input  ng-model="vm.newTribe.name">
+        </md-input-container>
+        <md-button class="md-raised" ng-click="vm.addTribe()">Add Tribe</md-button>
+      </div>
+      <md-button class="md-raised md-primary" ng-click="vm.tribeNextClick()">Next</md-button>
+    </div>
+
+    <div id="campSettings" ng-show="vm.campSettActive">
+      <md-list ng-cloak>
+        <md-header class="md-no-sticky">Camps:</md-header>
+        <md-list-item  ng-repeat="camp in vm.masterCampList">
+          <p>{{camp.fullName}}:</p>
+          <md-input-container>
+            <label>#counselors</label>
+            <input type="number" ng-model="camp.numCounselors">
+          </md-input-container>
+          <md-input-container>
+            <label>Guy Co-chair Name</label>
+            <input  ng-model="camp.guyCC">
+          </md-input-container>
+          <md-input-container>
+            <label>Girl Co-chair Name</label>
+            <input  ng-model="camp.girlCC">
+          </md-input-container>
+
+        </md-list-item>
+      </md-list>
+      <md-button class="md-raised md-primary" ng-click="vm.campSetNextClick()">Next</md-button>
+    </div>
+
+    <!-- <div>
+      <md-button class="md-raised" ng-click="vm.log('Confirm Settings Clicked')">Accept Defaults</md-button>
+    </div> -->
+</md-content>
