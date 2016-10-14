@@ -24,6 +24,7 @@ function SelectionsController(selectionsService) {
 
     //List that will contain complete round lists
     vm.roundOrders = [];
+    vm.roundOrders.push([]);
     //Var that contains camps, as well as counselors selected at this point
     vm.masterCampList = [];
     vm.roundNumber = 1;
@@ -32,6 +33,8 @@ function SelectionsController(selectionsService) {
     vm.sessions = settingDefaults.sessions;
     vm.tribes = settingDefaults.tribes;
     vm.log = log;
+    vm.disableGenderNext = true;
+    vm.genderEnableSubmit = genderEnableSubmit;
     vm.genderNextClick = genderNextClick;
     vm.addSession = addSession;
     vm.removeSession = removeSession;
@@ -40,12 +43,23 @@ function SelectionsController(selectionsService) {
     vm.removeTribe = removeTribe;
     vm.tribeNextClick = tribeNextClick;
     vm.gender = "Girls";
+    vm.campSetNextClick = campSetNextClick;
+
+    //Selections Order vars
+    vm.selOrderList = [];
+    vm.nextCamp = {};
+    vm.addCampToSelOrder = addCampToSelOrder;
+    vm.removeCampFromSelOrder = removeCampFromSelOrder;
+    vm.disableAdd=false;
+    vm.disableRemove=true;
+    vm.disableConfirmOrder=true;
 
     //View vars: setting one to true will bring up that div
     vm.genderSelActive=true;
     vm.sessionSelActive=false;
     vm.tribeSelActive=false;
     vm.campSettActive=false;
+    vm.selectionsOrderActive=false;
 
 
 
@@ -55,15 +69,19 @@ function SelectionsController(selectionsService) {
         console.log(s);
     }
 
+    function genderEnableSubmit(){
+      vm.disableGenderNext = false;
+      return;
+    }
+
     function genderNextClick(){
-      vm.gender = vm.data.group1;
-      vm.log(vm.gender);
-      vm.genderSelActive=false;
-      vm.sessionSelActive=true;
+        vm.gender = vm.data.group1;
+        vm.genderSelActive=false;
+        vm.sessionSelActive=true;
     }
 
     function addSession(){
-        if(typeof(vm.newSession.name) !== undefined && vm.newSession.name !== ""){
+        if(typeof(vm.newSession.name) !== undefined || vm.newSession.name !== ""){
           vm.sessions.push(vm.newSession.name);
           vm.newSession.name = "";
         }
@@ -111,10 +129,54 @@ function SelectionsController(selectionsService) {
       vm.campSettActive = true;
     }
 
+    function campSetNextClick(){
+      angular.copy(vm.masterCampList, vm.selOrderList);
+      vm.campSettActive=false;
+      vm.selectionsOrderActive=true;
+    }
 
+    function addCampToSelOrder(){
+      var addedCamp = {};
+      for(var i = 0; i < vm.selOrderList.length; i++){
+        if (vm.nextCamp == vm.selOrderList[i].fullName){
+          addedCamp = vm.selOrderList[i];
+          break;
+        }
+        if( i === (vm.selOrderList.length -1)){
+          return;
+        }
+      }
+      vm.roundOrders[0].push(addedCamp);
+      vm.selOrderList.splice(vm.selOrderList.indexOf(addedCamp), 1);
+      vm.nextCamp = "";
+      if(vm.selOrderList.length == 0){
+        vm.disableAdd=true;
+        vm.disableConfirmOrder=false;
+      }else{
+        vm.disableAdd=false;
+        vm.disableConfirmOrder=true;
+      }
+      if(vm.roundOrders[0].length == 0){
+        vm.disableRemove=true;
+      }else{
+        vm.disableRemove=false;
+      }
+    }
 
-
-
-
+    function removeCampFromSelOrder(){
+      vm.selOrderList.push(vm.roundOrders[0].pop());
+      if(vm.selOrderList.length == 0){
+        vm.disableAdd=true;
+        vm.disableConfirmOrder=false;
+      }else{
+        vm.disableAdd=false;
+        vm.disableConfirmOrder=true;
+      }
+      if(vm.roundOrders[0].length == 0){
+        vm.disableRemove=true;
+      }else{
+        vm.disableRemove=false;
+      }
+    }
 
 }

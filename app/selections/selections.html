@@ -4,14 +4,14 @@
   <div id="genderSettings" ng-show="vm.genderSelActive">
     <p>Selected Value: <span class="radioValue">{{ vm.data.group1 }}</span> </p>
 
-    <md-radio-group ng-model="vm.data.group1">
+    <md-radio-group ng-model="vm.data.group1" required>
 
-      <md-radio-button value="Guys" class="md-primary">Guys</md-radio-button>
-      <md-radio-button value="Girls">Girls</md-radio-button>
+      <md-radio-button value="Guys" class="md-primary" ng-click="vm.genderEnableSubmit()">Guys</md-radio-button>
+      <md-radio-button value="Girls" ng-click="vm.genderEnableSubmit()">Girls</md-radio-button>
 
     </md-radio-group>
 
-    <md-button class="md-raised md-primary" ng-click="vm.genderNextClick()">Next</md-button>
+    <md-button class="md-raised md-primary" ng-disabled="vm.disableGenderNext" ng-click="vm.genderNextClick()">Next</md-button>
   </div>
 
   <div id="sessionSettings" ng-show="vm.sessionSelActive">
@@ -25,7 +25,7 @@
     <div layout="row" layout-align="start start">
       <md-input-container>
           <label>New Session</label>
-          <input  ng-model="vm.newSession.name">
+          <input  ng-model="vm.newSession.name" ng-keyup="$event.keyCode == 13 && vm.addSession()">
       </md-input-container>
       <md-button class="md-raised" ng-click="vm.addSession()">Add Session</md-button>
     </div>
@@ -43,7 +43,7 @@
     <div layout="row" layout-align="start start">
       <md-input-container>
           <label>New Tribe</label>
-          <input  ng-model="vm.newTribe.name">
+          <input  ng-model="vm.newTribe.name" ng-keyup="$event.keyCode == 13 && vm.addTribe()">
       </md-input-container>
       <md-button class="md-raised" ng-click="vm.addTribe()">Add Tribe</md-button>
     </div>
@@ -61,17 +61,45 @@
         </md-input-container>
         <md-input-container>
           <label>Guy Co-chair Name</label>
-          <input  ng-model="camp.guyCC" required>
+          <input  ng-model="camp.guyCC" >
         </md-input-container>
         <md-input-container>
           <label>Girl Co-chair Name</label>
-          <input  ng-model="camp.girlCC" required>
+          <input  ng-model="camp.girlCC" >
         </md-input-container>
 
       </md-list-item>
     </md-list>
     <md-button class="md-raised md-primary" ng-click="vm.campSetNextClick()">Next</md-button>
   </div>
+
+  <div id="selectionsOrder" ng-show="vm.selectionsOrderActive" >
+    <md-header>Please Create the Selections Order:</md-header>
+    <div layout="row">
+      <md-input-container>
+        <label>Next Camp</label>
+        <md-select ng-model="vm.nextCamp" ng-keyup="$event.keyCode == 13 && vm.addCampToSelOrder()">
+          <md-option ng-repeat="camp in vm.selOrderList" ng-selected="$index === 0" ng-value="camp.fullName" >
+            {{camp.fullName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <div layout="column">
+        <md-button class="md-raised md-primary" ng-disabled="vm.disableAdd" ng-click="vm.addCampToSelOrder()">Add</md-button>
+        <md-button class="md-raised" ng-disabled="vm.disableRemove" ng-click="vm.removeCampFromSelOrder()">Remove Last</md-button>
+        <md-button class="md-raised md-primary" ng-disabled="vm.disableConfirmOrder" ng-click="vm.selOrderComfirm()">Confirm and Start</md-button>
+      </div>
+      <div layout="column">
+        <md-list ng-cloak>
+          <md-header>Current Selections Order:</md-header>
+          <md-list-item   ng-repeat="c in vm.roundOrders[0]">
+            {{($index + 1) + ") " + c.fullName}}
+          </md-list-item>
+        </md-list>
+      </div>
+    </div>
+  </div>
+
 
     <!-- <div>
       <md-button class="md-raised" ng-click="vm.log('Confirm Settings Clicked')">Accept Defaults</md-button>
