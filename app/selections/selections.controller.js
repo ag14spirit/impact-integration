@@ -19,7 +19,6 @@ function SelectionsController(selectionsService) {
     settingDefaults.numberOfRounds = 7;
     settingDefaults.numberOfPrevSel = 5;
     settingDefaults.numberNextUp = 3;
-    settingDefaults.GirlsSelection = true;
 
 
 
@@ -33,16 +32,20 @@ function SelectionsController(selectionsService) {
     vm.sessions = settingDefaults.sessions;
     vm.tribes = settingDefaults.tribes;
     vm.log = log;
+    vm.genderNextClick = genderNextClick;
     vm.addSession = addSession;
     vm.removeSession = removeSession;
     vm.sessionNextClick = sessionNextClick;
     vm.addTribe = addTribe;
     vm.removeTribe = removeTribe;
     vm.tribeNextClick = tribeNextClick;
+    vm.gender = "Girls";
 
     //View vars: setting one to true will bring up that div
-    vm.sessionSelActive=true;
+    vm.genderSelActive=true;
+    vm.sessionSelActive=false;
     vm.tribeSelActive=false;
+    vm.campSettActive=false;
 
 
 
@@ -50,6 +53,13 @@ function SelectionsController(selectionsService) {
 
     function log(s) {
         console.log(s);
+    }
+
+    function genderNextClick(){
+      vm.gender = vm.data.group1;
+      vm.log(vm.gender);
+      vm.genderSelActive=false;
+      vm.sessionSelActive=true;
     }
 
     function addSession(){
@@ -91,8 +101,8 @@ function SelectionsController(selectionsService) {
            }else{
             newcamp.numCounselors = settingDefaults.numberOfRounds;
            }
-          newcamp.guyCC = "Guy Cochair";
-          newcamp.girlCC = "Girl Cochair";
+          newcamp.guyCC = "";
+          newcamp.girlCC = "";
           vm.masterCampList.push(newcamp);
         }
 
