@@ -1,20 +1,66 @@
 <p>This is the partial for the applications!</p>
 
-<md-content layout="column">
+<md-content layout="column" layout-padding>
     <div>
-        <md-input-container>
-            <label>Title</label>
-            <input ng-model="user.title">
-        </md-input-container>
+        <div flex="50" flex-offset="15">
+            <form name="vm.applicationForm" ng-submit="vm.sendApp()">
 
-        <md-input-container>
-            <label>Email</label>
-            <input ng-model="user.email" type="email">
-        </md-input-container>
+                <div layout-gt-sm="row">
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>First Name</label>
+                        <input ng-model="vm.application.firstName">
+                    </md-input-container>
 
-        <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
-            <md-button class="md-raised" ng-click="vm.sendApp()">{{vm.buttonText}}</md-button>
-            <md-button class="md-raised" ng-click="vm.test()">{{user.title}}</md-button>
-        </section>
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>Last Name</label>
+                        <input ng-model="vm.application.lastName">
+                    </md-input-container>
+
+                    <md-input-container class="md-block" flex-gt-sm>
+                        <label>ID Number</label>
+                        <input ng-model="vm.application.id" type="number">
+                    </md-input-container>
+
+                </div>
+
+                <md-input-container class="md-block">
+                    <label>Email Address</label>
+                    <input ng-model="vm.application.emailAddress" type="email">
+                </md-input-container>
+
+                <md-radio-group ng-model="vm.application.gender">
+
+                    <md-radio-button ng-value="true" class="md-primary">Male</md-radio-button>
+                    <md-radio-button ng-value="false">Female</md-radio-button>
+
+                </md-radio-group>
+
+                <md-input-container class="md-block">
+                    <label>Biography</label>
+                    <textarea ng-model="vm.application.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+                </md-input-container>
+
+                <div layout="row" layout-sm="column" layout-align="center center" layout-wrap layout-margin>
+                    <md-button class="md-raised" type="submit">{{vm.buttonText}}</md-button>
+                </div>
+            </form>
+        </div>
+
+        <div layout="row" flex="66" layout-align="center center" layout-margin>
+            <span>{{vm.responseText}}</span>
+        </div>
+        <md-divider md-inset></md-divider>
+        <div layout="row" layout-align="center center" layout-margin layout-padding>
+            <md-input-container>
+                <label>Application ID</label>
+                <input ng-model="vm.application.id">
+            </md-input-container>
+        </div>
+        <div layout="row" layout-sm="column" layout-align="center center" layout-wrap layout-margin>
+            <md-button class="md-raised md-primary" ng-click="vm.getApp()">Get Application</md-button>
+        </div>
+        <div>
+            <span>{{vm.applicationResp}}</span>
+        </div>
     </div>
 </md-content>
