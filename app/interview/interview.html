@@ -1,0 +1,28 @@
+<md-content>
+    <div layout-align="center" layout="row" layout-padding>
+        <span>This is the interview page!</span>
+    </div>
+
+    <div flex="50" flex-offset="25" style="height: 800px;">
+        <calendar-md flex layout layout-fill
+                     calendar-direction="direction"
+                     on-prev-month="prevMonth"
+                     on-next-month="nextMonth"
+                     on-day-click="dayClick"
+                     title-format="'MMMM y'"
+                     ng-model='selectedDate'
+                     week-starts-on="firstDayOfWeek"
+                     data-start-month="10"
+                     data-start-year="2016"
+                     tooltips="tooltips"
+                     day-format="dayFormat"
+                     day-label-format="'EEE'"
+                     day-label-tooltip-format="'EEEE'"
+                     day-tooltip-format="'fullDate'"
+                     day-content="setDayContent"
+                     disable-future-selection="false"
+        ></calendar-md>
+    </div>
+</md-content>
+
+

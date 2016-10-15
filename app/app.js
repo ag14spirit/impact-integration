@@ -16,7 +16,8 @@
 var app = angular.module('app', [
     'ui.router', 'ui.router.stateHelper', 'ngMaterial', 'ngAnimate', 'ngResource',
     'app.applications',
-    'app.view1'
+    'app.view1',
+    'app.interview'
 ]).config(function($stateProvider, stateHelperProvider, $urlRouterProvider) {
     stateHelperProvider
     //without a url element in state, basically just changes what html is rendered
@@ -31,6 +32,12 @@ var app = angular.module('app', [
             templateUrl: '/applications/applications.html',
             controller: 'ApplicationsController',
             controllerAs: 'vm'
+        })
+        .state({
+            name: 'interview',
+            url: '/interview',
+            templateUrl: '/interview/interview.html',
+            controller: 'InterviewController'
         })
         .state({
             name: 'otherwise',
