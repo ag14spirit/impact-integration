@@ -78,8 +78,8 @@
     <div layout="row">
       <md-input-container>
         <label>Next Camp</label>
-        <md-select ng-model="vm.nextCamp" ng-keyup="$event.keyCode == 13 && vm.addCampToSelOrder()">
-          <md-option ng-repeat="camp in vm.selOrderList" ng-selected="$index === 0" ng-value="camp.fullName" >
+        <md-select ng-model="vm.nextCamp">
+          <md-option ng-repeat="camp in vm.selOrderList" ng-selected="$index === 0"  ng-value="camp.fullName" >
             {{camp.fullName}}
           </md-option>
         </md-select>
@@ -107,16 +107,50 @@
       <md-button class="md-raised md-primary"  ng-click="vm.startRoundClick()">Start</md-button>
     </div>
     <div layout="row">
-      <md-list ng-cloak ng-show="vm.currRound !== 1">
-        <md-header>Previous Selections:</md-header>
-        <md-list-item   ng-repeat="c in vm.previousSelections">
-          {{($index + 1) + ") " + c.fullName}}
-        </md-list-item>
-      </md-list>
+      <div ng-show="vm.currRound !== 1">
+        <div ng-repeat="counselor in vm.previousSelections">
+          <div>{{($index+1) + ") " counselor.camp}}</div>
+          <div>{{counselor.fullName}}</div>
+        </div>
+      </div>
       <md-list ng-cloak>
         <md-header>Next Camp Up:</md-header>
         <div>{{vm.roundOrders[vm.currRound][0].fullName}}</div>
       </md-list>
+    </div>
+  </div>
+
+  <div id="mainSelectionsPage" ng-show="vm.selectPageActive" layout="row">
+    <div id="mainLeftContainer">
+      <div id="nextUp">Next Up:</div>
+      <div ng-repeat="camp in vm.nextUp">
+        {{($index+1) + ") " + camp}}
+      </div>
+    </div>
+    <div id="mainCenterContainer">
+      <div id="roundLabel">Round {{vm.currRound}}</div>
+      <div id="campLabel">{{vm.currCamp.fullName}}</div>
+      <div id="coChairLabel">{{vm.currCamp.guyCC + " & " + vm.currCamp.girlCC}}</div>
+      <div id="timer">0:00</div>
+      <md-input-container>
+        <md-select ng-model="vm.applicantName">
+          <md-option ng-repeat="applicant in vm.currSessionAvailApplicants" ng-selected="$index === 0" ng-value="applicant.fullName" >
+            {{applicant.fullName}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-button class="md-raised md-primary"  ng-click="vm.selectApplicant()">Select</md-button>
+      <div layout="row">
+        <md-button class="md-raised"  ng-click="vm.mainPageBack()">Undo</md-button>
+        <md-button class="md-raised"  ng-click="vm.skipCamp()">Skip</md-button>
+      </div>
+    </div>
+    <div id="mainRightContainer">
+      <div id="prevSelLabel">Previous Selections:</div>
+      <div ng-show="vm.previousSelections.length > 0" ng-repeat="counselor in vm.previousSelections">
+        {{($index+1) + ") " + counselor.camp}}
+        <div>{{counselor.fullName}}</div>
+      </div>
     </div>
   </div>
 

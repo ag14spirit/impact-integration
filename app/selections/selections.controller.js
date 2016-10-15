@@ -34,6 +34,7 @@ function SelectionsController(selectionsService) {
     vm.campSettActive=false;
     vm.selectionsOrderActive=false;
     vm.startRoundActive = false;
+    vm.selectPageActive = false;
 
     //***Defaults for the settings
     //Will eventually be updated to pull settings from a table
@@ -44,6 +45,7 @@ function SelectionsController(selectionsService) {
     settingDefaults.numberOfRounds = 7;
     settingDefaults.numberOfPrevSel = 5;
     settingDefaults.numberNextUp = 3;
+    settingDefaults.loadDefaultApplicants = loadDefaultApplicants;
 
     //Vars for the Selections settings
     vm.sessions = settingDefaults.sessions;
@@ -58,7 +60,6 @@ function SelectionsController(selectionsService) {
     vm.addTribe = addTribe;
     vm.removeTribe = removeTribe;
     vm.tribeNextClick = tribeNextClick;
-    vm.gender = "Girls";
     vm.campSetNextClick = campSetNextClick;
 
 
@@ -87,12 +88,19 @@ function SelectionsController(selectionsService) {
     vm.currIndex = 0;
     //Holds the names of the previous counselors selected, maxPrev setting determines
     //the length of this var
+    vm.currCamp = {};
     vm.maxPrev = settingDefaults.numberOfPrevSel;
     vm.previousSelections = [];
     //Holds list of the next camps up:
     //Length set by maxNextUp
     vm.nextUp = [];
     vm.maxNextUp = settingDefaults.numberNextUp;
+
+    vm.availApplicants = settingDefaults.loadDefaultApplicants();
+    vm.selectedApplicants = [];
+    vm.currSessionAvailApplicants = [];
+    vm.initializeMainPage = initializeMainPage;
+
 
 
 
@@ -289,7 +297,68 @@ function SelectionsController(selectionsService) {
 
     //Start the Next Round!
     function startRoundClick(){
+      vm.initializeMainPage();
+      vm.startRoundActive=false;
+      vm.selectPageActive=true;
 
     }
+
+    function initializeMainPage(){
+      vm.currSessionAvailApplicants = [];
+      vm.currCamp = vm.roundOrders[vm.currRound][vm.currIndex];
+      for(var i = 0; i < vm.availApplicants.length; i++){
+        var app = vm.availApplicants[i];
+        if(app.sessions.indexOf(vm.currCamp.session) > -1){
+          vm.currSessionAvailApplicants.push(app);
+        }
+      }
+      //Get next up list set up
+      vm.nextUp = [];
+      for(var i = 0; i < vm.maxNextUp; i++){
+        var nextIndex = vm.currIndex + 1 + i;
+        if(nextIndex == vm.roundOrders[vm.currRound].length){
+          vm.nextUp.push("END OF ROUND");
+          break;
+        }else{
+          vm.nextUp.push(vm.roundOrders[vm.currRound][nextIndex].fullName);
+        }
+      }
+      //get previousSelections list
+      vm.previousSelections = [];
+      for(var i = 0; i < vm.maxPrev; i++){
+        var lastIndex = vm.selectedApplicants.length;
+        var selIndex = lastIndex - i - 1;
+        if(selIndex < 0){
+          break;
+        }else{
+          vm.previousSelections.push(vm.selectedApplicants[selIndex]);
+        }
+      }
+    }
+
+
+
+
+    function loadDefaultApplicants(){
+      var appList = [];
+      for(var i=0; i < 300; i++){
+        var newApp = {};
+        newApp.fullName = "Applicant #" + i;
+        newApp.email = "email" + i + "@example.com";
+        newApp.camp = "";
+        newApp.sessions = [];
+        if(i < 20){
+          newApp.sessions = ["Alpha"];
+        }else if (i < 40){
+          newApp.sessions = ["Alpha", "Delta"];
+        }else{
+          newApp.sessions = ["Alpha", "Delta", "Omega"];
+        }
+        appList.push(newApp);
+      }
+      return appList;
+    }
+
+
 
 }
