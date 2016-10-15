@@ -11,6 +11,31 @@ function SelectionsController(selectionsService) {
 
     var vm = this;
 
+
+
+
+
+//**Master Variables present during entire Selections Process
+    //List that will contain complete round lists
+    //roundOrders[0] is set by the round order functionality
+    //roundOrders[1]-roundOrders[maxRounds] contain the order for each round
+    //(set by roundOrders[0] on confirmation of round order)
+    vm.roundOrders = [[]];
+    //Var that contains camps, as well as counselors selected at this point
+    vm.masterCampList = [];
+
+
+
+
+    //Vars for setting the current view within the selections Page
+    vm.genderSelActive=true;
+    vm.sessionSelActive=false;
+    vm.tribeSelActive=false;
+    vm.campSettActive=false;
+    vm.selectionsOrderActive=false;
+    vm.startRoundActive = false;
+
+    //***Defaults for the settings
     //Will eventually be updated to pull settings from a table
     var settingDefaults = {};
     settingDefaults.sessions = ["Alpha", "Delta", "Omega"];
@@ -20,16 +45,7 @@ function SelectionsController(selectionsService) {
     settingDefaults.numberOfPrevSel = 5;
     settingDefaults.numberNextUp = 3;
 
-
-
-    //List that will contain complete round lists
-    vm.roundOrders = [];
-    vm.roundOrders.push([]);
-    //Var that contains camps, as well as counselors selected at this point
-    vm.masterCampList = [];
-    vm.roundNumber = 1;
-
-    //setting vars
+    //Vars for the Selections settings
     vm.sessions = settingDefaults.sessions;
     vm.tribes = settingDefaults.tribes;
     vm.log = log;
@@ -45,7 +61,8 @@ function SelectionsController(selectionsService) {
     vm.gender = "Girls";
     vm.campSetNextClick = campSetNextClick;
 
-    //Selections Order vars
+
+    //Vars for setting the selections Order
     vm.selOrderList = [];
     vm.nextCamp = {};
     vm.addCampToSelOrder = addCampToSelOrder;
@@ -53,13 +70,30 @@ function SelectionsController(selectionsService) {
     vm.disableAdd=false;
     vm.disableRemove=true;
     vm.disableConfirmOrder=true;
+    vm.selOrderComfirm = selOrderComfirm;
+    vm.setRoundOrders = setRoundOrders;
 
-    //View vars: setting one to true will bring up that div
-    vm.genderSelActive=true;
-    vm.sessionSelActive=false;
-    vm.tribeSelActive=false;
-    vm.campSettActive=false;
-    vm.selectionsOrderActive=false;
+
+
+    //Vars for the Start Round Page
+    vm.startPageBack = startPageBack;
+    vm.startRoundClick = startRoundClick;
+
+    //*** Main Selections Page Variables
+    //Var that holds current Selections Round Number
+    vm.currRound = 1;
+    //Index of the Camp that is up
+    //Camp is found at RoundOrders[currRound][currIndex]
+    vm.currIndex = 0;
+    //Holds the names of the previous counselors selected, maxPrev setting determines
+    //the length of this var
+    vm.maxPrev = settingDefaults.numberOfPrevSel;
+    vm.previousSelections = [];
+    //Holds list of the next camps up:
+    //Length set by maxNextUp
+    vm.nextUp = [];
+    vm.maxNextUp = settingDefaults.numberNextUp;
+
 
 
 
@@ -69,17 +103,20 @@ function SelectionsController(selectionsService) {
         console.log(s);
     }
 
+    //Function to enable Next button when Gender is selected
     function genderEnableSubmit(){
       vm.disableGenderNext = false;
       return;
     }
 
+    //Hide gender selections and bring up Session settings
     function genderNextClick(){
         vm.gender = vm.data.group1;
         vm.genderSelActive=false;
         vm.sessionSelActive=true;
     }
 
+    //Add a session to the session list
     function addSession(){
         if(typeof(vm.newSession.name) !== undefined || vm.newSession.name !== ""){
           vm.sessions.push(vm.newSession.name);
@@ -87,15 +124,18 @@ function SelectionsController(selectionsService) {
         }
     }
 
+    //Remove a session from the session list
     function removeSession(s){
       vm.sessions.splice(vm.sessions.indexOf(s),1);
     }
 
+    //Finish inputing sessions, move on to Tribe/Camp confirmation
     function sessionNextClick(){
       vm.sessionSelActive=false;
       vm.tribeSelActive=true;
     }
 
+    //Add Tribe to Tribe list
     function addTribe(){
         if(typeof(vm.newTribe.name) !== undefined && vm.newTribe.name !== ""){
           vm.tribes.push(vm.newTribe.name);
@@ -103,11 +143,14 @@ function SelectionsController(selectionsService) {
         }
     }
 
+    //Remove Tribe from Tribe List
     function removeTribe(s){
       vm.tribes.splice(vm.tribes.indexOf(s),1);
     }
 
+    //Confirm Tribe list, move on to confirming camp sessions
     function tribeNextClick(){
+      //Create all the camps in the master camp list, use defaults
       for(var i = 0; i < vm.sessions.length; i++){
         for(var j = 0; j < vm.tribes.length; j++){
           var newcamp = {};
@@ -129,12 +172,14 @@ function SelectionsController(selectionsService) {
       vm.campSettActive = true;
     }
 
+    //Confirm Camp Settings, move on to Selections Order
     function campSetNextClick(){
       angular.copy(vm.masterCampList, vm.selOrderList);
       vm.campSettActive=false;
       vm.selectionsOrderActive=true;
     }
 
+    //Add a camp to end of selections order list
     function addCampToSelOrder(){
       var addedCamp = {};
       for(var i = 0; i < vm.selOrderList.length; i++){
@@ -149,6 +194,8 @@ function SelectionsController(selectionsService) {
       vm.roundOrders[0].push(addedCamp);
       vm.selOrderList.splice(vm.selOrderList.indexOf(addedCamp), 1);
       vm.nextCamp = "";
+
+      //Make sure the correct buttons are enabled/disabled
       if(vm.selOrderList.length == 0){
         vm.disableAdd=true;
         vm.disableConfirmOrder=false;
@@ -163,8 +210,10 @@ function SelectionsController(selectionsService) {
       }
     }
 
+    //Remove the last Camp Added to the selections Order list
     function removeCampFromSelOrder(){
       vm.selOrderList.push(vm.roundOrders[0].pop());
+      //Make sure the correct buttons are enabled/disabled
       if(vm.selOrderList.length == 0){
         vm.disableAdd=true;
         vm.disableConfirmOrder=false;
@@ -177,6 +226,70 @@ function SelectionsController(selectionsService) {
       }else{
         vm.disableRemove=false;
       }
+    }
+
+    //Create all the round Order Lists After Confirming the round Order
+    function setRoundOrders(){
+      var forwardRoundList = [];
+      var tempForwardList = [];
+      var reverseRoundList = [];
+      var maxRounds = -1;
+      angular.copy(vm.roundOrders[0], forwardRoundList);
+      angular.copy(vm.roundOrders[0], tempForwardList);
+      for(var i = 0; i < forwardRoundList.length; i++){
+        var tempCamp = tempForwardList.pop();
+        if(tempCamp.numCounselors > maxRounds){
+          maxRounds = tempCamp.numCounselors;
+        }
+        reverseRoundList.push(tempCamp);
+      }
+
+      for(var i = 1; i <= maxRounds; i++){
+        vm.roundOrders.push([]); //Add another round list
+        //Snake draft, alternate the order for foward and reverse
+        if(i % 2 == 1){
+          for(var j = 0; j < vm.masterCampList.length; j++){
+            var nextCamp = {};
+            angular.copy(forwardRoundList[j],nextCamp);
+            if (nextCamp.numCounselors >= i){
+              vm.roundOrders[i].push(nextCamp);
+            }
+          }
+        }else{
+          for(var j = 0; j < vm.masterCampList.length; j++){
+            var nextCamp = {};
+            angular.copy(reverseRoundList[j],nextCamp);
+            if (nextCamp.numCounselors >= i){
+              vm.roundOrders[i].push(nextCamp);
+            }
+          }
+        }
+      }
+      console.log(vm.roundOrders);
+    }
+
+    //Confirm Round Order, Set the round lists, Move on to Round Start Page
+    function selOrderComfirm(){
+      vm.setRoundOrders();
+      vm.selectionsOrderActive=false;
+      vm.startRoundActive=true;
+    }
+
+    //Back up from current round to end of previous round/back to order confirmation
+    function startPageBack(){
+      //Go back to order confimration
+      if(vm.currRound === 1){
+        vm.selectionsOrderActive=true;
+        vm.startRoundActive=false;
+      //Go back to end of previous Round
+      }else{
+
+      }
+    }
+
+    //Start the Next Round!
+    function startRoundClick(){
+
     }
 
 }
