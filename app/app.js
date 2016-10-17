@@ -37,7 +37,7 @@ var app = angular.module('app', [
             name: 'interview',
             url: '/interview',
             templateUrl: '/interview/interview.html',
-            controller: 'InterviewController'
+            controller: 'InterviewController as vm'
         })
         .state({
             name: 'otherwise',

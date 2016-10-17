@@ -11,9 +11,9 @@ function interviewService(interviewResource) {
         query: query
     };
 
-    function query() {
+    function query(date) {
         console.log('querying for interviews');
-        return interviewResource.query();
+        return interviewResource.query(date).$promise;
     }
 
 }

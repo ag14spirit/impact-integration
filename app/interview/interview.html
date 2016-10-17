@@ -6,22 +6,26 @@
     <div flex="50" flex-offset="25" style="height: 800px;">
         <calendar-md flex layout layout-fill
                      calendar-direction="direction"
-                     on-prev-month="prevMonth"
-                     on-next-month="nextMonth"
-                     on-day-click="dayClick"
+                     on-prev-month="vm.prevMonth"
+                     on-next-month="vm.nextMonth"
+                     on-day-click="vm.dayClick"
                      title-format="'MMMM y'"
-                     ng-model='selectedDate'
+                     ng-model='vm.selectedDate'
                      week-starts-on="firstDayOfWeek"
                      data-start-month="10"
                      data-start-year="2016"
-                     tooltips="tooltips"
+                     tooltips="vm.tooltips"
                      day-format="dayFormat"
                      day-label-format="'EEE'"
                      day-label-tooltip-format="'EEEE'"
                      day-tooltip-format="'fullDate'"
-                     day-content="setDayContent"
+                     day-content="vm.setDayContent"
                      disable-future-selection="false"
         ></calendar-md>
+    </div>
+
+    <div layout-align="center" layout="row" layout-padding>
+        <span>{{vm.msg}}</span>
     </div>
 </md-content>
 
