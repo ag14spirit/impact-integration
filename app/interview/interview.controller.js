@@ -4,9 +4,9 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', '$filter', '$mdDialog'];
+InterviewController.$inject = ['interviewService', '$filter', '$mdDialog', 'TEST', 'moment'];
 
-function InterviewController(interviewService, $filter, $mdDialog) {
+function InterviewController(interviewService, $filter, $mdDialog, TEST, moment) {
 
     var vm = this;
 
@@ -75,8 +75,13 @@ function InterviewController(interviewService, $filter, $mdDialog) {
 
     function setDayContent(date) {
 
+        // var str = 'hello world - hi';
+        //
+        // str = _.startCase(str);
+
+       // var d = moment()._d;
         // Can manipulate what goes into the day's here... aka available time slots?
-        return "<p></p>";
+        return "<p>"+moment()._d+"</p>";
 
         // You could also use a promise.
         // var deferred = $q.defer();

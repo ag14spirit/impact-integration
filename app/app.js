@@ -14,7 +14,7 @@
 
 
 var app = angular.module('app', [
-    'ui.router', 'ui.router.stateHelper', 'ngMaterial', 'ngAnimate', 'ngResource',
+    'app.core',
     'app.applications',
     'app.view1',
     'app.interview'
