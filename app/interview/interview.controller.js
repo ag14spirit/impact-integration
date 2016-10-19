@@ -81,7 +81,7 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment)
 
        // var d = moment()._d;
         // Can manipulate what goes into the day's here... aka available time slots?
-        return "<p>"+moment()._d+"</p>";
+        return "<p>"+moment(date)._d+"</p>";
 
         // You could also use a promise.
         // var deferred = $q.defer();
