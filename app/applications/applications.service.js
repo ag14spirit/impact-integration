@@ -10,12 +10,17 @@ applicationsService.$inject = ['applicationsResource'];
 function applicationsService(applicationsResource) {
 
     return {
-        sendApplication: sendApplication
+        sendApplication: sendApplication,
+        sendTest: sendTest
     };
 
     function sendApplication() {
         console.log('sending application');
         return applicationsResource.sendApplication();
+    }
+
+    function sendTest(name) {
+        return applicationsResource.sendTest({name: name});
     }
 
 }

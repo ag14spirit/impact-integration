@@ -3,18 +3,14 @@
 <md-content layout="column">
     <div>
         <md-input-container>
-            <label>Title</label>
-            <input ng-model="user.title">
+            <label>Name</label>
+            <input ng-model="vm.user.name">
         </md-input-container>
 
-        <md-input-container>
-            <label>Email</label>
-            <input ng-model="user.email" type="email">
-        </md-input-container>
 
         <section layout="row" layout-sm="column" layout-align="center center" layout-wrap>
             <md-button class="md-raised" ng-click="vm.sendApp()">{{vm.buttonText}}</md-button>
-            <md-button class="md-raised" ng-click="vm.test()">{{user.title}}</md-button>
+            <md-button class="md-raised" ng-click="vm.test()">{{vm.user.name}}</md-button>
         </section>
     </div>
 </md-content>

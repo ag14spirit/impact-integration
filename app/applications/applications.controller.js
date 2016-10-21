@@ -14,10 +14,11 @@ function ApplicationsController(applicationsService) {
     vm.sendApp = sendApp;
 
     vm.buttonText = 'Send App!';
+    vm.user = {};
 
 
     function test() {
-        console.log('Testing');
+        applicationsService.sendTest(vm.user.name);
     }
 
     function sendApp() {

@@ -12,6 +12,13 @@ function applicationsResource($resource) {
     return $resource('http://localhost:4000/applications', {}, {
         sendApplication: {
             method: 'POST'
+        },
+        sendTest: {
+            url: 'http://70.117.102.80/easy/add/:name',
+            method: 'POST',
+            params: {
+                name: '@name'
+            }
         }
     });
 }
