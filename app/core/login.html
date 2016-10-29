@@ -1,30 +1,44 @@
-<md-content layout="column" layout-align="center">
-    <div layout-align="center" layout="row" layout-padding>
+<md-content layout="column" layout-align="center center">
+    <div layout="column" layout-align="center center" layout-padding>
+        <h2>Prayer Team Interviews</h2>
         <h3>Please Login below</h3>
     </div>
 </md-content>
 
-<md-content layout-padding>
-    <div layout-align="center">
+<md-content layout="row" layout-align="center center">
+    <div flex="50" layout-align="center center">
         <form name="loginForm">
             <div layout-gt-sm="row">
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>First Name</label>
-                    <input ng-model="applicant.firstName">
+                    <input name="fistName" ng-model="applicant.firstName" required>
+                    <div ng-messages="loginForm.firstName.$error">
+                      <div ng-message="required">First Name is required.</div>
+                    </div>
                 </md-input-container>
 
                 <md-input-container class="md-block" flex-gt-sm>
                     <label>Last Name</label>
-                    <input ng-model="applicant.lastName">
+                    <input name="lastName" ng-model="applicant.lastName" required>
+                    <div ng-messages="loginForm.lastName.$error">
+                      <div ng-message="required">Last Name is required.</div>
+                    </div>
                 </md-input-container>
             </div>
 
             <md-input-container class="md-block">
                 <label>Email Address</label>
-                <input ng-model="applicant.email">
+                <input name="email" type="email" ng-model="applicant.email" required>
+                <div ng-messages="loginForm.email.$error">
+                  <div ng-message="required">Valid email is required.</div>
+                </div>
             </md-input-container>
+            <md-radio-group ng-model="applicant.gender" class="md-primary" required>
+              <md-radio-button value=true>Male</md-radio-button>
+              <md-radio-button value=false>Female</md-radio-button>
+            </md-radio-group>
 
-            <md-button class="md-raised" ui-sref="interview({test:'testytest'})">Login</md-button>
+            <md-button type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid" ui-sref="interview({applicant:applicant})">Login</md-button>
         </form>
     </div>
 </md-content>

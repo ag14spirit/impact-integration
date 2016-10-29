@@ -37,7 +37,15 @@ var app = angular.module('app', [
             name: 'interview',
             url: '/interview',
             templateUrl: '/interview/interview.html',
-            controller: 'InterviewController as vm'
+            controller: 'InterviewController as vm',
+            params: {
+              applicant: {
+                  firstName : "Bob",
+                  lastName : "Sagot",
+                  emailAddress : "bsag@gmail.com",
+                  gender : true
+              }
+            }
         })
         .state({
             name: 'login',

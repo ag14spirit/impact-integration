@@ -4,12 +4,11 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', '$filter', '$mdDialog', 'TEST', 'moment'];
+InterviewController.$inject = ['interviewService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams'];
 
-function InterviewController(interviewService, $filter, $mdDialog, TEST, moment) {
+function InterviewController(interviewService, $filter, $mdDialog, TEST, moment, $state, $stateParams) {
 
-    var vm = this;
-
+    var vm = this
     vm.setDirection = setDirection;
     vm.dayClick = dayClick;
     vm.prevMonth = prevMonth;
@@ -18,13 +17,14 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment)
 
     vm.selectedDate = null;
     vm.tooltips = true;
+    vm.applicant = $stateParams.applicant;
 
-    vm.applicant = {
-        firstName : "Bob",
-        lastName : "Sagot",
-        emailAddress : "bsag@gmail.com",
-        gender : true
-    };
+    // vm.applicant = {
+    //     firstName : "Bob",
+    //     lastName : "Sagot",
+    //     emailAddress : "bsag@gmail.com",
+    //     gender : true
+    // };
 
     function setDirection (direction) {
         vm.direction = direction;
@@ -32,6 +32,7 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment)
     }
 
     function dayClick(date) {
+      console.log(vm.applicant);
         vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
         vm.selectedDate = $filter("date")(date, "MMMM d, y");
         vm.msg = vm.selectedDate;
