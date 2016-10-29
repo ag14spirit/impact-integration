@@ -19,6 +19,13 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment)
     vm.selectedDate = null;
     vm.tooltips = true;
 
+    vm.applicant = {
+        firstName : "Bob",
+        lastName : "Sagot",
+        emailAddress : "bsag@gmail.com",
+        gender : true
+    };
+
     function setDirection (direction) {
         vm.direction = direction;
         vm.dayFormat = direction === "vertical" ? "EEEE, MMMM d" : "d";

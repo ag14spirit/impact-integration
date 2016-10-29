@@ -40,6 +40,11 @@ var app = angular.module('app', [
             controller: 'InterviewController as vm'
         })
         .state({
+            name: 'login',
+            url: '/login',
+            templateUrl: '/core/login.html'
+        })
+        .state({
             name: 'otherwise',
             url: '/otherwise',
             template: '<h3>hello</h3>'
