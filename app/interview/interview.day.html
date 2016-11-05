@@ -5,22 +5,24 @@
                 <h2>Interview Times for {{selectedDate}}</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
-                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                    <!--<md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>-->
                 </md-button>
             </div>
         </md-toolbar>
 
         <md-dialog-content>
             <div class="md-dialog-content">
-                <span>
-                    This is where we could build a list of checkable dates!!
-                </span>
+                <md-radio-group ng-model="vm.interviewList">
+
+                    <md-radio-button ng-repeat="i in interviews" value="{{i}}">{{i.id}}: {{i.startDatePretty}} - {{i.endDatePretty}}</md-radio-button>
+
+                </md-radio-group>
             </div>
         </md-dialog-content>
 
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button ng-click="answer('not useful')">
+            <md-button ng-click="answer(vm.interviewList)">
                 Not Useful
             </md-button>
             <md-button ng-click="answer('useful')">

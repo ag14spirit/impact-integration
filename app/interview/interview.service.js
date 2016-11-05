@@ -8,12 +8,23 @@ interviewService.$inject = ['interviewResource'];
 
 function interviewService(interviewResource) {
     return {
-        query: query
+        queryDay: queryDay,
+        queryAll: queryAll,
+        getInterview: getInterview
     };
 
-    function query(date) {
-        console.log('querying for interviews');
-        return interviewResource.query(date).$promise;
+    function queryDay(day) {
+        console.log('querying for interviews on ' + day);
+        return interviewResource.queryDay({day: day}).$promise;
+    }
+
+    function queryAll() {
+        console.log('querying for all interviews')
+    }
+
+    function getInterview(id) {
+        console.log('querying for specific interview with id: ' + id);
+        return interviewResource.getInterview({interviewId: id});
     }
 
 }

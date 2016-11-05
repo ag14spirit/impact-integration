@@ -4,9 +4,9 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams'];
+InterviewController.$inject = ['interviewService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q'];
 
-function InterviewController(interviewService, $filter, $mdDialog, TEST, moment, $state, $stateParams) {
+function InterviewController(interviewService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q) {
 
     var vm = this
     vm.setDirection = setDirection;
@@ -14,6 +14,7 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
     vm.prevMonth = prevMonth;
     vm.prevMonth = nextMonth;
     vm.setDayContent = setDayContent;
+    vm.getInterviewForDay = getInterviewForDay;
 
     vm.selectedDate = null;
     vm.tooltips = true;
@@ -26,6 +27,16 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
     //     gender : true
     // };
 
+    /* Helper Functions */
+    function getInterviewForDay(day) {
+        var formatDay = moment(day).format('YYYY-MM-DD');
+
+        return interviewService.queryDay(formatDay).$promise;
+
+    }
+
+    /* Calendar Functions */
+
     function setDirection (direction) {
         vm.direction = direction;
         vm.dayFormat = direction === "vertical" ? "EEEE, MMMM d" : "d";
@@ -33,10 +44,11 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
 
     function dayClick(date) {
       console.log(vm.applicant);
+        //getInterviewForDay(date);
         vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
         vm.selectedDate = $filter("date")(date, "MMMM d, y");
         vm.msg = vm.selectedDate;
-        showTimes(date);
+        showTimes(moment(date).format('YYYY-MM-DD'));
     }
 
     function prevMonth(data) {
@@ -49,25 +61,36 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
 
     function showTimes(date) {
 
-        $mdDialog.show({
-            controller: DialogController,
-            templateUrl: 'interview/interview.day.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose:true,
-            bindToController: true,
-            locals: {
-                selectedDate: vm.selectedDate
-            }
-        })
-            .then(function(answer) {
-                vm.msg = 'You said the information was "' + answer + '".';
-            }, function() {
-                vm.msg = 'You cancelled the dialog.';
+        interviewService.queryDay(date).then(function(resp) {
+
+            _.forEach(resp, function(interview){
+                console.log(interview);
+                interview.startDatePretty = moment(interview.startDate).format('YYYY-MM-DD h:mm a');
+                interview.endDatePretty = moment(interview.endDate).format('YYYY-MM-DD h:mm a');
             });
+
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: 'interview/interview.day.html',
+                parent: angular.element(document.body),
+                clickOutsideToClose:true,
+                bindToController: true,
+                locals: {
+                    selectedDate: vm.selectedDate,
+                    interviews: resp
+                }
+            })
+                .then(function(answer) {
+                    vm.msg = 'You said the information was "' + answer + '".';
+                }, function() {
+                    vm.msg = 'You cancelled the dialog.';
+                });
+        });
     }
 
-    function DialogController($scope, $mdDialog, selectedDate) {
+    function DialogController($scope, $mdDialog, selectedDate, interviews) {
         $scope.selectedDate = selectedDate;
+        $scope.interviews = interviews;
         $scope.hide = function() {
             $mdDialog.hide();
         };
@@ -89,7 +112,32 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
 
        // var d = moment()._d;
         // Can manipulate what goes into the day's here... aka available time slots?
-        return "<p>"+moment(date)._d+"</p>";
+
+        var formatDay = moment(date).format('YYYY-MM-DD');
+
+        return interviewService.queryDay(formatDay).then(function(resp) {
+            var text = '';
+
+            // If there are any interview returned
+            if(resp.length > 0){
+                _.forEach(resp, function(index){
+                    text = text + '1';
+                });
+            }
+
+            // HERE IS WHERE WE CAN SEE IF THERE ARE NO INTERVIEWS FOR THAT DAY... DISABLE THE DAY SOMEHOW
+            else {
+                var day = moment(date).format('D');
+
+
+                //$('div[tabindex='+day+']').css({'background': 'red', 'color': 'white'}).addClass('disabled');
+
+                text = 'None';
+            }
+            return "<p>"+text+"</p>";
+        });
+
+
 
         // You could also use a promise.
         // var deferred = $q.defer();
