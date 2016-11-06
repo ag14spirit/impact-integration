@@ -25,6 +25,13 @@ function interviewResource($resource) {
             params: {
                 interviewId: '@interviewId'
             }
+        },
+        assignApplicantToInterview: {
+            url: 'http://localhost:4000/interview/assignApplicant/:interviewId',
+            method: 'POST',
+            params: {
+                interviewId: '@interviewId'
+            }
         }
 
     });

@@ -16,6 +16,7 @@
 var app = angular.module('app', [
     'app.core',
     'app.applications',
+    'app.applicant',
     'app.view1',
     'app.interview'
 ]).config(function($stateProvider, stateHelperProvider, $urlRouterProvider) {
@@ -38,14 +39,17 @@ var app = angular.module('app', [
             url: '/interview',
             templateUrl: '/interview/interview.html',
             controller: 'InterviewController as vm',
+            // Default applicant
             params: {
-              applicant: {
-                  firstName : "Bob",
-                  lastName : "Sagot",
-                  emailAddress : "bsag@gmail.com",
-                  gender : true
-              }
+                applicant: {}
             }
+            //   applicant: {
+            //       firstName : "Bob",
+            //       lastName : "Sagot",
+            //       emailAddress : "bsag@gmail.com",
+            //       gender : true
+            //   }
+            // }
         })
         .state({
             name: 'login',

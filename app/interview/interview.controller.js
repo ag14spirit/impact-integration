@@ -4,17 +4,18 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q'];
+InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q'];
 
-function InterviewController(interviewService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q) {
+function InterviewController(interviewService, applicantService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q) {
 
-    var vm = this
+    var vm = this;
     vm.setDirection = setDirection;
     vm.dayClick = dayClick;
     vm.prevMonth = prevMonth;
     vm.prevMonth = nextMonth;
     vm.setDayContent = setDayContent;
     vm.getInterviewForDay = getInterviewForDay;
+    vm.addApplicant = addApplicant;
 
     vm.selectedDate = null;
     vm.tooltips = true;
@@ -33,6 +34,10 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
 
         return interviewService.queryDay(formatDay).$promise;
 
+    }
+
+    function addApplicant() {
+        applicantService.addApplicant(vm.applicant);
     }
 
     /* Calendar Functions */
@@ -80,8 +85,19 @@ function InterviewController(interviewService, $filter, $mdDialog, TEST, moment,
                     interviews: resp
                 }
             })
-                .then(function(answer) {
-                    vm.msg = 'You said the information was "' + answer + '".';
+                .then(function(selectedInterview) {
+                    if(!_.isEmpty(vm.applicant)) {
+                        vm.msg = 'You selected interview "' + selectedInterview + '".';
+                        applicantService.addApplicant(vm.applicant).then(function(resp) {
+                            //resp is the newly added applicant
+                            interviewService.assignApplicantToInterview(selectedInterview, resp).then(function(resp){
+                                setDayContent(date);
+                            })
+                        })
+                    }
+                    else {
+                        vm.msg = 'No applicant was available to be sent. Please try logging in again!';
+                    }
                 }, function() {
                     vm.msg = 'You cancelled the dialog.';
                 });

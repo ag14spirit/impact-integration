@@ -10,7 +10,8 @@ function interviewService(interviewResource) {
     return {
         queryDay: queryDay,
         queryAll: queryAll,
-        getInterview: getInterview
+        getInterview: getInterview,
+        assignApplicantToInterview: assignApplicantToInterview
     };
 
     function queryDay(day) {
@@ -24,7 +25,12 @@ function interviewService(interviewResource) {
 
     function getInterview(id) {
         console.log('querying for specific interview with id: ' + id);
-        return interviewResource.getInterview({interviewId: id});
+        return interviewResource.getInterview({interviewId: id}).$promise;
+    }
+
+    function assignApplicantToInterview(interview, applicant) {
+        console.log('adding ' + applicant + ' to interview with id = ' + interview.id);
+        return interviewResource.assignApplicantToInterview({interviewId: interview.id}, applicant).$promise;
     }
 
 }
