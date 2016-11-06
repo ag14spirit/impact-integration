@@ -20,3 +20,6 @@ p {
 .active {
   color: red;
   font-weight: bolder; }
+
+.diffMonth {
+  background-color: grey; }

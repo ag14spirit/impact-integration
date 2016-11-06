@@ -20,6 +20,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     vm.selectedDate = null;
     vm.tooltips = true;
     vm.applicant = $stateParams.applicant;
+    vm.noInterviewsOnDay = {};
 
     // vm.applicant = {
     //     firstName : "Bob",
@@ -65,6 +66,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     }
 
     function showTimes(date) {
+
+        vm.interviewsOnDay[date] = true;
 
         interviewService.queryDay(date).then(function(resp) {
 
@@ -128,7 +131,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
 
        // var d = moment()._d;
         // Can manipulate what goes into the day's here... aka available time slots?
-
+        vm.noInterviewsOnDay.test = false;
         var formatDay = moment(date).format('YYYY-MM-DD');
 
         return interviewService.queryDay(formatDay).then(function(resp) {
@@ -145,6 +148,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
             else {
                 var day = moment(date).format('D');
 
+                vm.noInterviewsOnDay[formatDay] = true;
 
                 //$('div[tabindex='+day+']').css({'background': 'red', 'color': 'white'}).addClass('disabled');
 
