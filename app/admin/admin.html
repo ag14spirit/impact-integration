@@ -1,0 +1,12 @@
+<md-content layout="column" layout-align="center center" layout-padding>
+    <h2 layout-align="center">Welcome to the Admin Screen</h2>
+
+    <md-nav-bar md-selected-nav-item="currentNavItem" nav-bar-aria-label="navigation links">
+        <md-nav-item md-nav-click="goto('interviews')" name="interviews">Interviews</md-nav-item>
+        <md-nav-item md-nav-click="goto('applicants')" name="applicants">Applicants</md-nav-item>
+        <md-nav-item md-nav-click="goto('export')" name="export">Export</md-nav-item>
+    </md-nav-bar>
+    <div class="ext-content">
+        External content for `<span>{{currentNavItem}}</span>`
+    </div>
+</md-content>

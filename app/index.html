@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>My AngularJS App</title>
+  <title>Impact Portalß</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/dist/css/normalize.css">
@@ -20,6 +20,7 @@
 <body>
   <ul class="menu">
     <li><a ui-sref="view1" ui-sref-active="active">View 1</a></li>
+    <li><a ui-sref="admin" ui-sref-active="active">Admin</a></li>
     <li><a ui-sref="login" ui-sref-active="active">Login</a></li>
     <li><a ui-sref="applications" ui-sref-active="active">Applications</a></li>
     <li><a ui-sref="interview" ui-sref-active="active">Interview</a></li>
@@ -55,6 +56,9 @@
   <script src="core/core.module.js"></script>
   <script src="core/constants.js"></script>
   <script src="core/angular-material-calendar.js"></script>
+
+  <script src="admin/admin.module.js"></script>
+  <script src="admin/admin.controller.js"></script>
 
   <script src="applications/applications.module.js"></script>
   <script src="applications/applications.controller.js"></script>

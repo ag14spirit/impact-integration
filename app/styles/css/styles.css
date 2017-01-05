@@ -17,9 +17,11 @@ p {
     content: "|";
     padding-right: 0.3em; }
 
-.active {
-  color: red;
-  font-weight: bolder; }
+.disabled {
+  background-color: #b0ccd5; }
 
 .diffMonth {
-  background-color: grey; }
+  background-color: darkgrey; }
+
+.available {
+  background-color: limegreen; }

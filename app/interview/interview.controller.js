@@ -67,8 +67,6 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
 
     function showTimes(date) {
 
-        vm.interviewsOnDay[date] = true;
-
         interviewService.queryDay(date).then(function(resp) {
 
             _.forEach(resp, function(interview){
@@ -104,6 +102,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                 }, function() {
                     vm.msg = 'You cancelled the dialog.';
                 });
+        }, function(error) {
+
         });
     }
 
@@ -131,7 +131,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
 
        // var d = moment()._d;
         // Can manipulate what goes into the day's here... aka available time slots?
-        vm.noInterviewsOnDay.test = false;
+
         var formatDay = moment(date).format('YYYY-MM-DD');
 
         return interviewService.queryDay(formatDay).then(function(resp) {
@@ -139,9 +139,14 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
 
             // If there are any interview returned
             if(resp.length > 0){
+
+                vm.noInterviewsOnDay[formatDay] = false;
+
                 _.forEach(resp, function(index){
                     text = text + '1';
                 });
+
+                text = text + ' slots available';
             }
 
             // HERE IS WHERE WE CAN SEE IF THERE ARE NO INTERVIEWS FOR THAT DAY... DISABLE THE DAY SOMEHOW

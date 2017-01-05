@@ -15,6 +15,7 @@
 
 var app = angular.module('app', [
     'app.core',
+    'app.admin',
     'app.applications',
     'app.applicant',
     'app.view1',
@@ -31,8 +32,7 @@ var app = angular.module('app', [
             name: 'applications',
             url: '/applications',
             templateUrl: '/applications/applications.html',
-            controller: 'ApplicationsController',
-            controllerAs: 'vm'
+            controller: 'ApplicationsController as vm'
         })
         .state({
             name: 'interview',
@@ -55,6 +55,12 @@ var app = angular.module('app', [
             name: 'login',
             url: '/login',
             templateUrl: '/core/login.html'
+        })
+        .state({
+            name: 'admin',
+            url: '/admin',
+            templateUrl: '/admin/admin.html',
+            controller: 'AdminController as vm'
         })
         .state({
             name: 'otherwise',

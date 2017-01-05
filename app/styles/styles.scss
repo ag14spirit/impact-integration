@@ -30,6 +30,8 @@ p {
   }
 }
 
-.active { color: red; font-weight: bolder; }
+.disabled { background-color: $impact-light}
 
-.diffMonth { background-color: grey}
+.diffMonth { background-color: darkgrey}
+
+.available { background-color: limegreen}
