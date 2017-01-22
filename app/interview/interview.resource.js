@@ -7,9 +7,18 @@ angular
 interviewResource.$inject = ['$resource'];
 
 function interviewResource($resource) {
-    return $resource('http://localhost:4000/interview', {}, {
+    var ipAddress = 'http://70.117.102.80';
+    return $resource(ipAddress + '/interview', {}, {
         queryDay: {
-            url: "http://localhost:4000/interview/day/:day/availability",
+            url: ipAddress + "/interview/day/:day/availability",
+            method: 'GET',
+            isArray: true,
+            params: {
+                day: '@day'
+            }
+        },
+        queryDayAdmin: {
+            url: ipAddress + "/interview/day/:day/",
             method: 'GET',
             isArray: true,
             params: {
@@ -17,21 +26,54 @@ function interviewResource($resource) {
             }
         },
         queryAll: {
+            url: ipAddress + "/interview/all",
+            isArray: true,
             method: 'GET'
         },
         getInterview: {
-            url: "http://localhost:4000/interview/:interviewId",
+            url: ipAddress + "/interview/:interviewId",
+            method: 'GET',
+            params: {
+                interviewId: '@interviewId'
+            }
+        },
+        removeInterview: {
+            url: ipAddress + "/interview/remove/:interviewId",
             method: 'GET',
             params: {
                 interviewId: '@interviewId'
             }
         },
         assignApplicantToInterview: {
-            url: 'http://localhost:4000/interview/assignApplicant/:interviewId',
+            url: ipAddress + '/interview/assignApplicant/:interviewId',
             method: 'POST',
             params: {
                 interviewId: '@interviewId'
             }
+        },
+        removeApplicantToInterview: {
+            url: ipAddress + '/interview/removeApplicant/:interviewId',
+            method: 'POST',
+            params: {
+                interviewId: '@interviewId'
+            }
+        },
+        removeAllAppsFromInterviews: {
+            url: ipAddress + '/interview/removeAllApplicants',
+            method: 'GET'
+        },
+        addInterview: {
+          url: ipAddress + '/interview/add',
+          method: 'POST'
+        },
+        getAllFullInterviews:{
+          url: ipAddress + '/interview/all_full',
+          isArray: true,
+          method: 'GET'
+        },
+        deleteAllInterviews:{
+          url: ipAddress + '/interview/deleteAllInterviews',
+          method: 'GET'
         }
 
     });

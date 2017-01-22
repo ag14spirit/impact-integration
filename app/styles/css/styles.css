@@ -17,11 +17,17 @@ p {
     content: "|";
     padding-right: 0.3em; }
 
+.available {
+  background-color: limegreen; }
+
+.diffMonth {
+  background-color: darkgrey; }
+
+.noInterview {
+  background-color: #b0ccd5; }
+
 .disabled {
   background-color: #b0ccd5; }
 
 .diffMonth {
   background-color: darkgrey; }
-
-.available {
-  background-color: limegreen; }

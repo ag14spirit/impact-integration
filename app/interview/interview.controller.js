@@ -74,6 +74,13 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                 interview.startDatePretty = moment(interview.startDate).format('YYYY-MM-DD h:mm a');
                 interview.endDatePretty = moment(interview.endDate).format('YYYY-MM-DD h:mm a');
             });
+            resp.sort(function(a,b){
+                if ( a.startDate < b.startDate )
+                  return -1;
+                if ( a.startDate > b.startDate )
+                  return 1;
+                return 0;
+            });
 
             $mdDialog.show({
                 controller: DialogController,
