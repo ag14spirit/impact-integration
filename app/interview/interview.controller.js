@@ -21,6 +21,9 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     vm.tooltips = true;
     vm.applicant = $stateParams.applicant;
     vm.noInterviewsOnDay = {};
+    vm.appHasInterview = false;
+    checkifHasInterview();
+
 
     // vm.applicant = {
     //     firstName : "Bob",
@@ -28,6 +31,32 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     //     emailAddress : "bsag@gmail.com",
     //     gender : true
     // };
+
+    function checkifHasInterview(){
+      if (_.isEmpty(vm.applicant)){
+        vm.appHasInterview = false;
+      }else{
+        console.log(vm.applicant);
+        interviewService.getAllFullInterviews().then(function(resp) {
+          //Match email, firstName, and LastName
+          console.log(resp);
+          _.forEach(resp, function(interview){
+            if(
+                (interview.applicant.firstName.toLowerCase() == vm.applicant.firstName.toLowerCase()) &&
+                (interview.applicant.lastName.toLowerCase() == vm.applicant.lastName.toLowerCase()) &&
+                (interview.applicant.emailAddress == vm.applicant.emailAddress)
+              ){
+                vm.appHasInterview = true;
+                vm.existingInterview = interview;
+                console.log("test");
+                vm.existingInterview.datePretty = moment(interview.startDate).format('MM/D/YYYY');
+                vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm a');
+                vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm a');
+              }
+          });
+        });
+      }
+    }
 
     /* Helper Functions */
     function getInterviewForDay(day) {

@@ -1,10 +1,15 @@
 <md-toolbar class="md-toolbar-tools" layout-align="center center">Impact Interviews</md-toolbar>
 
 <md-content>
-    <div layout-align="center" layout="row" layout-padding>
-        <span>Please Sign up for an Interview:</span>
-    </div>
-    <md-content layout-align="center center" layout="column"  flex="80" flex-offset="10">
+    <md-content layout-align="center center" ng-show="vm.appHasInterview" layout="column"  flex="80" flex-offset="10">
+      <p>{{vm.existingInterview.applicant.firstName}} {{vm.existingInterview.applicant.lastName}} is scheduled for an interview
+        at {{vm.existingInterview.datePretty}} from {{vm.existingInterview.startDatePretty}} to {{vm.existingInterview.endDatePretty}}.</p>
+
+        <p>Please email interviews@impactretreat.com to change times or with any other questions.</p>
+    </md-content>
+
+    <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview" flex="80" flex-offset="10">
+      <h4>Please Sign up for an Interview:</h4>
     <div layout-fill style="height: 600px;">
         <calendar-md flex layout layout-fill
                      calendar-direction="direction"

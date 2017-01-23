@@ -57,6 +57,11 @@ var app = angular.module('app', [
             templateUrl: '/core/login.html'
         })
         .state({
+            name: 'closed',
+            url: '/closed',
+            templateUrl: '/core/signups-closed.html'
+        })
+        .state({
             name: 'admin',
             url: '/admin',
             templateUrl: '/admin/admin.html',
@@ -69,5 +74,5 @@ var app = angular.module('app', [
         });
 
         // catches bad routes and sends them to the otherwise state
-        $urlRouterProvider.otherwise('/otherwise');
+        $urlRouterProvider.otherwise('/login');
 });
