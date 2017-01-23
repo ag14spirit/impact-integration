@@ -8,7 +8,7 @@
         <p>Please email interviews@impactretreat.com to change times or with any other questions.</p>
     </md-content>
 
-    <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview" flex="80" flex-offset="10">
+    <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview && !vm.completedSignup" flex="80" flex-offset="10">
       <h4>Please Sign up for an Interview:</h4>
     <div layout-fill style="height: 600px;">
         <calendar-md flex layout layout-fill
@@ -29,6 +29,13 @@
                      no-interviews-on-day="vm.noInterviewsOnDay"
         ></calendar-md>
     </div>
+  </md-content>
+  <md-content layout-align="center center" ng-show="vm.completedSignup" layout="column"  flex="80" flex-offset="10">
+    <h3>Success!</h3>
+    <p>Your interview is scheduled for {{vm.completedInt.datePretty}} from {{vm.completedInt.startDatePretty}} to {{vm.completedInt.endDatePretty}}.</p>
+    <p>Please print or save a copy of this page for your records.</p>
+    <p>Please email interviews@impactretreat.com to change times or with any other questions.</p>
+    <p>It is safe to close this window.</p>
   </md-content>
     <!-- <div layout-align="center" layout="row" layout-padding>
         <span>{{vm.msg}}</span>

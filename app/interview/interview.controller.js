@@ -22,6 +22,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     vm.applicant = $stateParams.applicant;
     vm.noInterviewsOnDay = {};
     vm.appHasInterview = false;
+    vm.completedSignup = false;
+    vm.completedInt = {};
     checkifHasInterview();
 
 
@@ -32,6 +34,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     //     gender : true
     // };
 
+    //Determines if applicant has interview. if does, displays time:
     function checkifHasInterview(){
       if (_.isEmpty(vm.applicant)){
         vm.appHasInterview = false;
@@ -128,7 +131,12 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                         applicantService.addApplicant(vm.applicant).then(function(resp) {
                             //resp is the newly added applicant
                             interviewService.assignApplicantToInterview(selectedInterview, resp).then(function(resp){
+                                vm.completedInt = selectedInterview;
+                                vm.completedInt.datePretty = moment(vm.completedInt.startDate).format('MM/D/YYYY');
+                                vm.completedInt.startDatePretty = moment(vm.completedInt.startDate).format('h:mm a');
+                                vm.completedInt.endDatePretty = moment(vm.completedInt.endDate).format('h:mm a');
                                 setDayContent(date);
+                                vm.completedSignup = true;
                             })
                         })
                     }
