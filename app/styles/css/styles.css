@@ -18,16 +18,16 @@ p {
     padding-right: 0.3em; }
 
 .available {
-  background-color: limegreen; }
+  background-color: #b0ccd5; }
 
 .diffMonth {
   background-color: darkgrey; }
 
 .noInterview {
-  background-color: #b0ccd5; }
+  background-color: #406977; }
 
 .disabled {
-  background-color: #b0ccd5; }
+  background-color: #406977; }
 
 .diffMonth {
   background-color: darkgrey; }

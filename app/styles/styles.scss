@@ -30,12 +30,12 @@ p {
   }
 }
 
-.available { background-color: limegreen}
+.available { background-color: $impact-light}
 
 .diffMonth { background-color: darkgrey}
 
-.noInterview{  background-color: $impact-light}
+.noInterview{  background-color: $impact-dark}
 
-.disabled { background-color: $impact-light}
+.disabled { background-color: $impact-dark}
 
 .diffMonth { background-color: darkgrey}

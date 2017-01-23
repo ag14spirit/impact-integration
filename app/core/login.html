@@ -1,8 +1,6 @@
 <md-content layout="column" layout-align="center center">
-    <div layout="column" layout-align="center center" layout-padding>
-        <h2>Impact Counselor Interviews</h2>
-        <h3>Please Login below</h3>
-    </div>
+  <md-toolbar class="md-toolbar-tools" layout-align="center center">Impact Interview Signups:</md-toolbar>
+  <h3>Please Login Below:</h3>
 </md-content>
 
 <md-content layout="row" layout-align="center center">
@@ -38,7 +36,7 @@
               <md-radio-button value=false>Female</md-radio-button>
             </md-radio-group>
 
-            <md-button type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid" ui-sref="interview({applicant:applicant})">Login</md-button>
+            <md-button layout-fill type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid" ui-sref="interview({applicant:applicant})">Login</md-button>
         </form>
     </div>
 </md-content>

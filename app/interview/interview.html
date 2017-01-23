@@ -1,9 +1,9 @@
 <md-content>
     <div layout-align="center" layout="row" layout-padding>
-        <span>This is the interview page!</span>
+        <span>Please Sign up for an Interview:</span>
     </div>
-
-    <div flex style="height: 800px;">
+    <md-content layout-align="center center" layout="column"  flex="80" flex-offset="10">
+    <div layout-fill style="height: 600px;">
         <calendar-md flex layout layout-fill
                      calendar-direction="direction"
                      on-prev-month="vm.prevMonth"
@@ -22,9 +22,9 @@
                      no-interviews-on-day="vm.noInterviewsOnDay"
         ></calendar-md>
     </div>
-
-    <div layout-align="center" layout="row" layout-padding>
+  </md-content>
+    <!-- <div layout-align="center" layout="row" layout-padding>
         <span>{{vm.msg}}</span>
-    </div>
+    </div> -->
 
 </md-content>
