@@ -1,18 +1,31 @@
+<md-toolbar class="md-toolbar-tools md-tall" layout-align="start center" md-colors="{background: 'primary-impactDarkGrey', color: 'primary-50'}">
+  <div class="link-wrapper" flex="25">
+  <a href="http://www.impactretreat.com">
+    <img src="../images/logo-big-white.png" class="logoImage">
+  </a>
+  </div>
+  <div class="title-wrapper" layout-align="center center" layout="column" flex="50">
+    Impact Interview Administration Page
+  </div>
+  <div class="title-spacer" flex="25">
+  </div>
+</md-toolbar>
 
-<md-toolbar class="md-toolbar-tools" layout-align="center center">Welcome to the Impact Interview Administration Page</md-toolbar>
 <md-content ng-show="!vm.validatedLogin" layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
   <h3>Please Enter Password:</h3>
-  <form name="adminLogin">
-      <md-input-container class="md-block" flex-gt-sm>
-          <label>Password</label>
-          <input name="password" ng-model="vm.passwordField" required>
-          <div ng-messages="adminLogin.password.$error">
-            <div ng-message="required">Password Required</div>
-          </div>
-      </md-input-container>
-      <md-button type="submit" class="md-raised md-primary" ng-disabled="adminLogin.$invalid" ng-click="vm.verifyLogin()">Login</md-button>
-  </form>
-  <div style="color:red">{{vm.loginResponse}}</div>
+  <div flex="50" layout-align="center center">
+    <form name="adminLogin">
+        <md-input-container layout-fill class="md-block" flex-gt-sm>
+            <label>Password</label>
+            <input name="password" type="password" ng-model="vm.passwordField" required>
+            <div ng-messages="adminLogin.password.$error">
+              <div ng-message="required">Password Required</div>
+            </div>
+        </md-input-container>
+        <md-button type="submit" class="md-raised md-primary" layout-fill ng-disabled="adminLogin.$invalid" ng-click="vm.verifyLogin()">Login</md-button>
+    </form>
+    <div style="color:red">{{vm.loginResponse}}</div>
+  </div>
 </md-content>
 <md-content ng-show="vm.validatedLogin">
   <md-tabs md-dynamic-height md-border-bottom md-center-tabs>

@@ -66,12 +66,12 @@ function AdminController(adminService, interviewService, applicantService, $filt
     function verifyLogin(){
       adminService.verifyLogin(vm.passwordField).then(function(resp) {
         console.log(resp);
-        // if(resp === "MATCH"){
-        //   vm.loginResponse = "";
-        //   vm.validatedLogin = true;
-        // }else{
-        //   vm.loginResponse = "Invalid Password";
-        // }
+        if(resp.isMatch){
+          vm.loginResponse = "";
+          vm.validatedLogin = true;
+        }else{
+          vm.loginResponse = "*Invalid Password*";
+        }
       });
     }
 

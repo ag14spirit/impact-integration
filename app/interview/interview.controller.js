@@ -38,6 +38,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     function checkifHasInterview(){
       if (_.isEmpty(vm.applicant)){
         vm.appHasInterview = false;
+        //Go to login page if they are not loged in
+        $state.go('login');
       }else{
         console.log(vm.applicant);
         interviewService.getAllFullInterviews().then(function(resp) {

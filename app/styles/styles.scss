@@ -39,3 +39,16 @@ p {
 .disabled { background-color: $impact-dark}
 
 .diffMonth { background-color: darkgrey}
+
+
+.logoImage{
+    height: auto;
+    max-height: 55px;
+    width: auto;
+    max-width: 100%;
+}
+
+.md-toolbar-tools{
+  background-color: $impact-bg-header;
+  color: $impact-text-header;
+}

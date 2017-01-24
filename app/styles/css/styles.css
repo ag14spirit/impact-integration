@@ -18,16 +18,26 @@ p {
     padding-right: 0.3em; }
 
 .available {
-  background-color: #b0ccd5; }
+  background-color: #afccd5; }
 
 .diffMonth {
   background-color: darkgrey; }
 
 .noInterview {
-  background-color: #406977; }
+  background-color: #426976; }
 
 .disabled {
-  background-color: #406977; }
+  background-color: #426976; }
 
 .diffMonth {
   background-color: darkgrey; }
+
+.logoImage {
+  height: auto;
+  max-height: 55px;
+  width: auto;
+  max-width: 100%; }
+
+.md-toolbar-tools {
+  background-color: #242424;
+  color: white; }

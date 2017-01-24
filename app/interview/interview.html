@@ -1,11 +1,22 @@
-<md-toolbar class="md-toolbar-tools" layout-align="center center">Impact Interviews</md-toolbar>
+<md-toolbar class="md-toolbar-tools md-tall" layout-align="start center" md-colors="{background: 'primary-impactDarkGrey', color: 'primary-50'}">
+  <div class="link-wrapper" flex="25">
+  <a href="http://www.impactretreat.com">
+    <img src="../images/logo-big-white.png" class="logoImage">
+  </a>
+  </div>
+  <div class="title-wrapper" layout-align="center center" layout="column" flex="50">
+    Impact Interview Signups
+  </div>
+  <div class="title-spacer" flex="25">
+  </div>
+</md-toolbar>
 
 <md-content>
     <md-content layout-align="center center" ng-show="vm.appHasInterview" layout="column"  flex="80" flex-offset="10">
       <p>{{vm.existingInterview.applicant.firstName}} {{vm.existingInterview.applicant.lastName}} is scheduled for an interview
         at {{vm.existingInterview.datePretty}} from {{vm.existingInterview.startDatePretty}} to {{vm.existingInterview.endDatePretty}}.</p>
 
-        <p>Please email interviews@impactretreat.com to change times or with any other questions.</p>
+        <p>Please email <a href="mailto:interviews@impactretreat.com?Subject=Interview%20Signup%20Question" target="_top">interviews@impactretreat.com</a> to change times or with any other questions.</p>
     </md-content>
 
     <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview && !vm.completedSignup" flex="80" flex-offset="10">
@@ -34,7 +45,7 @@
     <h3>Success!</h3>
     <p>Your interview is scheduled for {{vm.completedInt.datePretty}} from {{vm.completedInt.startDatePretty}} to {{vm.completedInt.endDatePretty}}.</p>
     <p>Please print or save a copy of this page for your records.</p>
-    <p>Please email interviews@impactretreat.com to change times or with any other questions.</p>
+    <p>Please email <a href="mailto:interviews@impactretreat.com?Subject=Interview%20Signup%20Question" target="_top">interviews@impactretreat.com</a> to change times or with any other questions.</p>
     <p>It is safe to close this window.</p>
   </md-content>
     <!-- <div layout-align="center" layout="row" layout-padding>
