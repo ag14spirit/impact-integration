@@ -4,11 +4,16 @@ angular
     .module('app.admin')
     .controller('AdminController', AdminController);
 
-AdminController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q'];
+AdminController.$inject = ['adminService','interviewService', 'applicantService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q'];
 
-function AdminController(interviewService, applicantService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q)  {
+function AdminController(adminService, interviewService, applicantService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q)  {
     var vm = this;
 
+
+    //Login vars/functions
+    vm.verifyLogin = verifyLogin;
+    vm.validatedLogin = false;
+    vm.passwordField = "";
     //Interview Tab variables
     vm.setDirection = setDirection;
     vm.dayClick = dayClick;
@@ -54,6 +59,14 @@ function AdminController(interviewService, applicantService, $filter, $mdDialog,
     vm.clearAllApps = clearAllApps;
     vm.clearAllInterviews = clearAllInterviews;
 
+
+//LOGIN FUNCTION****************************************************************
+
+    function verifyLogin(){
+      vm.validatedLogin = adminService.verifyLogin(vm.passwordField).$promise;
+    }
+
+//INTERVIEW TAB FUNCTIONS*******************************************************
 
     /* Interview Tab Calendar Functions */
     function setDirection (direction) {

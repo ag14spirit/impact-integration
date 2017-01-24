@@ -1,18 +1,102 @@
 
-    <md-toolbar class="md-toolbar-tools" layout-align="center center">Welcome to the Impact Interview Administration Page</md-toolbar>
-    <md-tabs md-dynamic-height md-border-bottom md-center-tabs>
+<md-toolbar class="md-toolbar-tools" layout-align="center center">Welcome to the Impact Interview Administration Page</md-toolbar>
+<md-content ng-show="!vm.validatedLogin" layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
+  <h3>Please Enter Password:</h3>
+  <form name="loginForm">
+      <md-input-container class="md-block" flex-gt-sm>
+          <label>Password</label>
+          <input name="fistName" ng-model="applicant.firstName" required>
+          <div ng-messages="loginForm.firstName.$error">
+            <div ng-message="required">Password Required</div>
+          </div>
+      </md-input-container>
 
-      <md-tab label="Interviews" >
+      <md-button type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="vm.verifyLogin()">Login</md-button>
+  </form>
+</md-content>
+<md-content ng-show="vm.validatedLogin">
+  <md-tabs md-dynamic-height md-border-bottom md-center-tabs>
+
+    <md-tab label="Interviews" >
+      <md-content layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
+        <h4>Edit Interview Times:</h4>
+
+          <!-- <h4 flex>View and Edit Interview Times</h4> -->
+            <div flex style="height: 600px; " layout-fill>
+              <admin-calendar-md  layout layout-fill
+                           calendar-direction="direction"
+                           on-prev-month="vm.prevMonth"
+                           on-next-month="vm.nextMonth"
+                           on-day-click="vm.dayClick"
+                           title-format="'MMMM y'"
+                           ng-model='vm.selectedDate'
+                           week-starts-on="firstDayOfWeek"
+                           tooltips="vm.tooltips"
+                           day-format="dayFormat"
+                           day-label-format="'EEE'"
+                           day-label-tooltip-format="'EEEE'"
+                           day-tooltip-format="'fullDate'"
+                           day-content="vm.setDayContent"
+                           disable-future-selection="false"
+                           no-interviews-on-day="vm.noInterviewsOnDay"
+              ></admin-calendar-md>
+            </div>
+        </md-content>
+    </md-tab>
+
+    <md-tab label="Applicants">
         <md-content layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
-          <h4>Edit Interview Times:</h4>
+          <h4>Edit Applicant Interview Time or Delete Applicant:</h4>
+          <div  layout-fill layout-gt-xs="row">
+            <md-autocomplete
 
-            <!-- <h4 flex>View and Edit Interview Times</h4> -->
-              <div flex style="height: 600px; " layout-fill>
-                <admin-calendar-md  layout layout-fill
+                layout-fill
+                md-no-cache="true"
+                md-selected-item="vm.selectedApplicant"
+                md-search-text-change="vm.searchTextChange(vm.searchText)"
+                md-search-text="vm.searchText"
+                md-selected-item-change="vm.displaySelApp(app)"
+                md-items="app in vm.querySearch(vm.searchText)"
+                md-item-text="app.fullDisplayName"
+                md-min-length="0"
+                placeholder="Search Applicants">
+              <md-item-template>
+                <span md-highlight-text="vm.searchText" md-highlight-flags="gi">{{app.fullDisplayName}}</span>
+              </md-item-template>
+              <md-not-found>
+                No apps Found.
+              </md-not-found>
+            </md-autocomplete>
+            <md-button class="md-primary md-raised" ng-click="vm.loadAllFullInterviews()">Refresh</md-button>
+          </div>
+          <md-subheader class="md-primary">Edit Applicant:</md-subheader>
+            <div  layout-fill layout-gt-xs="row">
+              <md-input-container flex="35">
+                <label>Applicant:</label>
+                <input ng-model="vm.currApp.fullDisplayName" disabled>
+              </md-input-container>
+              <md-input-container flex="20">
+                <label>Interview Date:</label>
+                <input ng-model="vm.currApp.datePretty" disabled>
+              </md-input-container>
+              <md-input-container flex="20">
+                <label>Interview Start:</label>
+                <input ng-model="vm.currApp.startDatePretty" disabled>
+              </md-input-container>
+              <md-input-container flex="20">
+                <label>Interview End:</label>
+                <input ng-model="vm.currApp.endDatePretty" disabled>
+              </md-input-container>
+              <md-button class="md-primary md-raised" ng-disabled="!vm.appActive" ng-click="vm.editAppInterview()">Move</md-button>
+              <md-button class="md-warn md-raised" ng-disabled="!vm.appActive" ng-click="vm.deleteApp()">Delete</md-button>
+            </div>
+
+            <div  style="height: 600px;" ng-show="vm.moveIntActive" >
+                <calendar-md flex layout layout-fill
                              calendar-direction="direction"
                              on-prev-month="vm.prevMonth"
                              on-next-month="vm.nextMonth"
-                             on-day-click="vm.dayClick"
+                             on-day-click="vm.interviewDayClick"
                              title-format="'MMMM y'"
                              ng-model='vm.selectedDate'
                              week-starts-on="firstDayOfWeek"
@@ -21,161 +105,93 @@
                              day-label-format="'EEE'"
                              day-label-tooltip-format="'EEEE'"
                              day-tooltip-format="'fullDate'"
-                             day-content="vm.setDayContent"
+                             day-content="vm.interviewSetDayContent"
                              disable-future-selection="false"
-                             no-interviews-on-day="vm.noInterviewsOnDay"
-                ></admin-calendar-md>
-              </div>
-          </md-content>
-      </md-tab>
-
-      <md-tab label="Applicants">
-          <md-content layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
-            <h4>Edit Applicant Interview Time or Delete Applicant:</h4>
-            <div  layout-fill layout-gt-xs="row">
-              <md-autocomplete
-
-                  layout-fill
-                  md-no-cache="true"
-                  md-selected-item="vm.selectedApplicant"
-                  md-search-text-change="vm.searchTextChange(vm.searchText)"
-                  md-search-text="vm.searchText"
-                  md-selected-item-change="vm.displaySelApp(app)"
-                  md-items="app in vm.querySearch(vm.searchText)"
-                  md-item-text="app.fullDisplayName"
-                  md-min-length="0"
-                  placeholder="Search Applicants">
-                <md-item-template>
-                  <span md-highlight-text="vm.searchText" md-highlight-flags="gi">{{app.fullDisplayName}}</span>
-                </md-item-template>
-                <md-not-found>
-                  No apps Found.
-                </md-not-found>
-              </md-autocomplete>
-              <md-button class="md-primary md-raised" ng-click="vm.loadAllFullInterviews()">Refresh</md-button>
+                             no-interviews-on-day="vm.noAvailInterviewsOnDay"
+                ></calendar-md>
             </div>
-            <md-subheader class="md-primary">Edit Applicant:</md-subheader>
-              <div  layout-fill layout-gt-xs="row">
-                <md-input-container flex="35">
-                  <label>Applicant:</label>
-                  <input ng-model="vm.currApp.fullDisplayName" disabled>
-                </md-input-container>
-                <md-input-container flex="20">
-                  <label>Interview Date:</label>
-                  <input ng-model="vm.currApp.datePretty" disabled>
-                </md-input-container>
-                <md-input-container flex="20">
-                  <label>Interview Start:</label>
-                  <input ng-model="vm.currApp.startDatePretty" disabled>
-                </md-input-container>
-                <md-input-container flex="20">
-                  <label>Interview End:</label>
-                  <input ng-model="vm.currApp.endDatePretty" disabled>
-                </md-input-container>
-                <md-button class="md-primary md-raised" ng-disabled="!vm.appActive" ng-click="vm.editAppInterview()">Move</md-button>
-                <md-button class="md-warn md-raised" ng-disabled="!vm.appActive" ng-click="vm.deleteApp()">Delete</md-button>
-              </div>
+            <md-content layout="row" ng-show="vm.addingApp" layout-align="center center">
+                <div layout-align="center center">
+                    <form name="loginForm">
+                        <div layout-gt-sm="row">
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>First Name</label>
+                                <input name="fistName" ng-model="vm.newApplicant.firstName" required>
+                                <div ng-messages="loginForm.firstName.$error">
+                                  <div ng-message="required">First Name is required.</div>
+                                </div>
+                            </md-input-container>
 
-              <div  style="height: 600px;" ng-show="vm.moveIntActive" >
-                  <calendar-md flex layout layout-fill
-                               calendar-direction="direction"
-                               on-prev-month="vm.prevMonth"
-                               on-next-month="vm.nextMonth"
-                               on-day-click="vm.interviewDayClick"
-                               title-format="'MMMM y'"
-                               ng-model='vm.selectedDate'
-                               week-starts-on="firstDayOfWeek"
-                               tooltips="vm.tooltips"
-                               day-format="dayFormat"
-                               day-label-format="'EEE'"
-                               day-label-tooltip-format="'EEEE'"
-                               day-tooltip-format="'fullDate'"
-                               day-content="vm.interviewSetDayContent"
-                               disable-future-selection="false"
-                               no-interviews-on-day="vm.noAvailInterviewsOnDay"
-                  ></calendar-md>
-              </div>
-              <md-content layout="row" ng-show="vm.addingApp" layout-align="center center">
-                  <div layout-align="center center">
-                      <form name="loginForm">
-                          <div layout-gt-sm="row">
-                              <md-input-container class="md-block" flex-gt-sm>
-                                  <label>First Name</label>
-                                  <input name="fistName" ng-model="vm.newApplicant.firstName" required>
-                                  <div ng-messages="loginForm.firstName.$error">
-                                    <div ng-message="required">First Name is required.</div>
-                                  </div>
-                              </md-input-container>
+                            <md-input-container class="md-block" flex-gt-sm>
+                                <label>Last Name</label>
+                                <input name="lastName" ng-model="vm.newApplicant.lastName" required>
+                                <div ng-messages="loginForm.lastName.$error">
+                                  <div ng-message="required">Last Name is required.</div>
+                                </div>
+                            </md-input-container>
+                        </div>
 
-                              <md-input-container class="md-block" flex-gt-sm>
-                                  <label>Last Name</label>
-                                  <input name="lastName" ng-model="vm.newApplicant.lastName" required>
-                                  <div ng-messages="loginForm.lastName.$error">
-                                    <div ng-message="required">Last Name is required.</div>
-                                  </div>
-                              </md-input-container>
-                          </div>
+                        <md-input-container class="md-block">
+                            <label>Email Address</label>
+                            <input name="email" type="email" ng-model="vm.newApplicant.emailAddress" required>
+                            <div ng-messages="loginForm.email.$error">
+                              <div ng-message="required">Valid email is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-radio-group ng-model="vm.newApplicant.gender" class="md-primary" required>
+                          <md-radio-button value=true>Male</md-radio-button>
+                          <md-radio-button value=false>Female</md-radio-button>
+                        </md-radio-group>
+                        <div  style="height: 600px;" ng-show="vm.addAppActive" >
+                            <calendar-md flex layout layout-fill
+                                         calendar-direction="direction"
+                                         on-prev-month="vm.prevMonth"
+                                         on-next-month="vm.nextMonth"
+                                         on-day-click="vm.addAppToDayClick"
+                                         title-format="'MMMM y'"
+                                         ng-model='vm.selectedDate'
+                                         week-starts-on="firstDayOfWeek"
+                                         tooltips="vm.tooltips"
+                                         day-format="dayFormat"
+                                         day-label-format="'EEE'"
+                                         day-label-tooltip-format="'EEEE'"
+                                         day-tooltip-format="'fullDate'"
+                                         day-content="vm.interviewSetDayContent"
+                                         disable-future-selection="false"
+                                         no-interviews-on-day="vm.noAvailInterviewsOnDay"
+                            ></calendar-md>
+                        </div>
 
-                          <md-input-container class="md-block">
-                              <label>Email Address</label>
-                              <input name="email" type="email" ng-model="vm.newApplicant.emailAddress" required>
-                              <div ng-messages="loginForm.email.$error">
-                                <div ng-message="required">Valid email is required.</div>
-                              </div>
-                          </md-input-container>
-                          <md-radio-group ng-model="vm.newApplicant.gender" class="md-primary" required>
-                            <md-radio-button value=true>Male</md-radio-button>
-                            <md-radio-button value=false>Female</md-radio-button>
-                          </md-radio-group>
-                          <div  style="height: 600px;" ng-show="vm.addAppActive" >
-                              <calendar-md flex layout layout-fill
-                                           calendar-direction="direction"
-                                           on-prev-month="vm.prevMonth"
-                                           on-next-month="vm.nextMonth"
-                                           on-day-click="vm.addAppToDayClick"
-                                           title-format="'MMMM y'"
-                                           ng-model='vm.selectedDate'
-                                           week-starts-on="firstDayOfWeek"
-                                           tooltips="vm.tooltips"
-                                           day-format="dayFormat"
-                                           day-label-format="'EEE'"
-                                           day-label-tooltip-format="'EEEE'"
-                                           day-tooltip-format="'fullDate'"
-                                           day-content="vm.interviewSetDayContent"
-                                           disable-future-selection="false"
-                                           no-interviews-on-day="vm.noAvailInterviewsOnDay"
-                              ></calendar-md>
-                          </div>
-
-                          <md-button type="submit" layout-fill class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="vm.showAddCalendar()">Assign To Interview</md-button>
-                      </form>
-                  </div>
-              </md-content>
-              <md-button class="md-primary md-raised" layout-fill ng-disabled="vm.addingApp" ng-show="!vm.addingApp && !vm.addAppActive" ng-click="vm.addNewApplicant()">Add New Applicant</md-button>
-
-          </md-content>
-      </md-tab>
-
-      <md-tab label="List/Export">
-        <md-content layout="column" layout-align="center center"  layout-padding>
-            <h4>Export the Current Interviews and Applicants</h4>
-            <h5>Use the update button before exporting to ensure latest list</h5>
-            <md-button class="md-raised md-primary" ng-click="vm.updateExportLists()">Update Lists</md-button>
-            <md-content layout="row" layout-align="center center"  layout-padding>
-              <md-button class="md-raised md-primary" ng-json-export-excel data="vm.allIntSort" separator="," report-fields="{'datePretty': 'Interview Date', startDatePretty: 'Start', endDatePretty: 'End', 'applicant.fullName': 'Full Name', 'applicant.firstName': 'First Name', 'applicant.lastName': 'Last Name', 'applicant.emailAddress': 'Email', 'applicant.genderPretty': 'Gender'}", filename="'interviews'">Export Interview List</md-button>
-              <md-button class="md-raised md-primary" ng-json-export-excel data="vm.allAppSort" separator="," report-fields="{'applicant.fullName': 'Full Name', 'applicant.firstName': 'First Name', 'applicant.lastName': 'Last Name', 'applicant.emailAddress': 'Email', 'applicant.genderPretty': 'Gender', 'datePretty': ' Interview Date', startDatePretty: 'Start', endDatePretty: 'End'}", filename="'applicants'">Export Applicant List</md-button>
+                        <md-button type="submit" layout-fill class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="vm.showAddCalendar()">Assign To Interview</md-button>
+                    </form>
+                </div>
             </md-content>
-        </md-content>
-      </md-tab>
+            <md-button class="md-primary md-raised" layout-fill ng-disabled="vm.addingApp" ng-show="!vm.addingApp && !vm.addAppActive" ng-click="vm.addNewApplicant()">Add New Applicant</md-button>
 
-      <md-tab label="Reset Database">
-        <md-content layout="column" layout-align="center center"  layout-padding>
-          <h4>Delete All Applicants or Delete All Interivews</h4>
-          <h5>This should only happen AFTER SELECTIONS for Counselors</h5>
-          <md-content layout="row" layout-align="center center"  layout-padding>
-            <md-button class="md-raised md-primary" ng-click="vm.clearAllApps()">Clear All Applicants</md-button>
-            <md-button class="md-raised md-primary" ng-click="vm.clearAllInterviews()">Clear All Intervies and Apps</md-button>
-          </md-content>
         </md-content>
-      </md-tab>
-    </md-tabs>
+    </md-tab>
+
+    <md-tab label="List/Export">
+      <md-content layout="column" layout-align="center center"  layout-padding>
+          <h4>Export the Current Interviews and Applicants</h4>
+          <h5>Use the update button before exporting to ensure latest list</h5>
+          <md-button class="md-raised md-primary" ng-click="vm.updateExportLists()">Update Lists</md-button>
+          <md-content layout="row" layout-align="center center"  layout-padding>
+            <md-button class="md-raised md-primary" ng-json-export-excel data="vm.allIntSort" separator="," report-fields="{'datePretty': 'Interview Date', startDatePretty: 'Start', endDatePretty: 'End', 'applicant.fullName': 'Full Name', 'applicant.firstName': 'First Name', 'applicant.lastName': 'Last Name', 'applicant.emailAddress': 'Email', 'applicant.genderPretty': 'Gender'}", filename="'interviews'">Export Interview List</md-button>
+            <md-button class="md-raised md-primary" ng-json-export-excel data="vm.allAppSort" separator="," report-fields="{'applicant.fullName': 'Full Name', 'applicant.firstName': 'First Name', 'applicant.lastName': 'Last Name', 'applicant.emailAddress': 'Email', 'applicant.genderPretty': 'Gender', 'datePretty': ' Interview Date', startDatePretty: 'Start', endDatePretty: 'End'}", filename="'applicants'">Export Applicant List</md-button>
+          </md-content>
+      </md-content>
+    </md-tab>
+
+    <md-tab label="Reset Database">
+      <md-content layout="column" layout-align="center center"  layout-padding>
+        <h4>Delete All Applicants or Delete All Interivews</h4>
+        <h5>This should only happen AFTER SELECTIONS for Counselors</h5>
+        <md-content layout="row" layout-align="center center"  layout-padding>
+          <md-button class="md-raised md-primary" ng-click="vm.clearAllApps()">Clear All Applicants</md-button>
+          <md-button class="md-raised md-primary" ng-click="vm.clearAllInterviews()">Clear All Interviews and Apps</md-button>
+        </md-content>
+      </md-content>
+    </md-tab>
+  </md-tabs>
+</md-content>
