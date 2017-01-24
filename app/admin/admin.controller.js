@@ -14,6 +14,7 @@ function AdminController(adminService, interviewService, applicantService, $filt
     vm.verifyLogin = verifyLogin;
     vm.validatedLogin = false;
     vm.passwordField = "";
+    vm.loginResponse = "";
     //Interview Tab variables
     vm.setDirection = setDirection;
     vm.dayClick = dayClick;
@@ -63,7 +64,15 @@ function AdminController(adminService, interviewService, applicantService, $filt
 //LOGIN FUNCTION****************************************************************
 
     function verifyLogin(){
-      vm.validatedLogin = adminService.verifyLogin(vm.passwordField).$promise;
+      adminService.verifyLogin(vm.passwordField).then(function(resp) {
+        console.log(resp);
+        // if(resp === "MATCH"){
+        //   vm.loginResponse = "";
+        //   vm.validatedLogin = true;
+        // }else{
+        //   vm.loginResponse = "Invalid Password";
+        // }
+      });
     }
 
 //INTERVIEW TAB FUNCTIONS*******************************************************

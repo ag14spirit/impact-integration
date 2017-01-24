@@ -2,17 +2,17 @@
 <md-toolbar class="md-toolbar-tools" layout-align="center center">Welcome to the Impact Interview Administration Page</md-toolbar>
 <md-content ng-show="!vm.validatedLogin" layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
   <h3>Please Enter Password:</h3>
-  <form name="loginForm">
+  <form name="adminLogin">
       <md-input-container class="md-block" flex-gt-sm>
           <label>Password</label>
-          <input name="fistName" ng-model="applicant.firstName" required>
-          <div ng-messages="loginForm.firstName.$error">
+          <input name="password" ng-model="vm.passwordField" required>
+          <div ng-messages="adminLogin.password.$error">
             <div ng-message="required">Password Required</div>
           </div>
       </md-input-container>
-
-      <md-button type="submit" class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="vm.verifyLogin()">Login</md-button>
+      <md-button type="submit" class="md-raised md-primary" ng-disabled="adminLogin.$invalid" ng-click="vm.verifyLogin()">Login</md-button>
   </form>
+  <div style="color:red">{{vm.loginResponse}}</div>
 </md-content>
 <md-content ng-show="vm.validatedLogin">
   <md-tabs md-dynamic-height md-border-bottom md-center-tabs>

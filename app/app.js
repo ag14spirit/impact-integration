@@ -74,5 +74,5 @@ var app = angular.module('app', [
         });
 
         // catches bad routes and sends them to the otherwise state
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/closed');
 });
