@@ -434,7 +434,9 @@ function AdminController(interviewService, applicantService, $filter, $mdDialog,
 
         //Stuff to add  new Applicant
         function addNewApplicant(){
+          vm.newApplicant = {};
           vm.addingApp = true;
+
         }
         function showAddCalendar(){
           vm.addAppActive=true;
@@ -485,7 +487,6 @@ function AdminController(interviewService, applicantService, $filter, $mdDialog,
                                 vm.addingApp = false;
                                 vm.addAppActive = false;
                                 loadAllFullInterviews();
-                                vm.newApplicant = {};
                                 vm.currApp = {};
                                 selectedInterview.datePretty = moment(selectedInterview.startDate).format('MM/D/YYYY');
                                 selectedInterview.startDatePretty = moment(selectedInterview.startDate).format('h:mm a');
