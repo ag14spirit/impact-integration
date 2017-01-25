@@ -21,7 +21,11 @@
 
     <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview && !vm.completedSignup" flex="80" flex-offset="10">
       <h4>Please Sign up for an Interview:</h4>
-    <div layout-fill style="height: 600px;">
+        <timer interval="15000" ng-hide="true"/>
+        <div layout-align="center" layout="row" ng-class="{'msgError': vm.displayInterviewMsgHasError}" layout-padding ng-hide="!vm.displayInterviewMsg">
+            <span>{{vm.msg}}</span>
+        </div>
+        <div layout-fill style="height: 600px;">
         <calendar-md flex layout layout-fill
                      calendar-direction="direction"
                      on-prev-month="vm.prevMonth"
@@ -38,6 +42,7 @@
                      day-content="vm.setDayContent"
                      disable-future-selection="false"
                      no-interviews-on-day="vm.noInterviewsOnDay"
+                     ng-if="vm.dataLoaded"
         ></calendar-md>
     </div>
   </md-content>
@@ -48,8 +53,5 @@
     <p>Please email <a href="mailto:interviews@impactretreat.com?Subject=Interview%20Signup%20Question" target="_top">interviews@impactretreat.com</a> to change times or with any other questions.</p>
     <p>It is safe to close this window.</p>
   </md-content>
-    <!-- <div layout-align="center" layout="row" layout-padding>
-        <span>{{vm.msg}}</span>
-    </div> -->
 
 </md-content>

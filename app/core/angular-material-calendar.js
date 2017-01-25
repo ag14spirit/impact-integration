@@ -382,6 +382,11 @@ angular.module("materialCalendar").directive("calendarMd", ["$compile", "$parse"
             };
 
             $scope.$watch("weekStartsOn", init);
+
+            //listens for a broadcast of specific string. calls function when it receives it.
+            $scope.$on("call-setData", function(event) {
+                setData();
+            });
             bootstrap();
 
             // These are for tests, don't remove them..

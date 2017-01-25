@@ -4,9 +4,9 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q'];
+InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment','$state','$stateParams', '$q', '$scope'];
 
-function InterviewController(interviewService, applicantService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q) {
+function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, $state, $stateParams, $q, $scope) {
 
     var vm = this;
     vm.setDirection = setDirection;
@@ -23,9 +23,22 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     vm.noInterviewsOnDay = {};
     vm.appHasInterview = false;
     vm.completedSignup = false;
-    vm.completedInt = {};
-    checkifHasInterview();
+    vm.dataLoaded = false;
 
+    vm.displayInterviewMsg = false;
+    vm.displayInterviewMsgHasError = false;
+
+    vm.completedInt = {};
+    vm.allInterviews = {};
+    vm.formattedInterviews = {};
+
+    // For the Timer
+    $scope.$on('timer-tick', function (event, args) {
+        getAllInterviewsFormattedObject();
+    });
+
+    checkifHasInterview();
+    //getAllInterviewsFormattedObject();
 
     // vm.applicant = {
     //     firstName : "Bob",
@@ -34,12 +47,36 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     //     gender : true
     // };
 
+    // Function to grab all interviews at once
+    function getAllInterviewsFormattedObject() {
+        console.log('Grabbing all Interviews from server');
+        vm.allInterviews = interviewService.queryAll().then(function(resp){
+            vm.formattedInterviews = {};
+            _.forEach(resp, function(interview) {
+                var formatDay = moment(interview.startDate).format('YYYY-MM-DD');
+                var interviewDay = vm.formattedInterviews[formatDay];
+                if(!interviewDay) {
+                    interviewDay = {};
+                    interviewDay.numInterviewsAvailable = 0;
+                    vm.formattedInterviews[formatDay] = interviewDay;
+                }
+                if(!interview.taken) {
+                    interviewDay.numInterviewsAvailable += 1;
+                }
+            });
+            vm.dataLoaded = true;
+            // Broadcasts to the directive to reset the data on the calendar
+            $scope.$broadcast("call-setData");
+            return resp;
+        });
+    }
+
     //Determines if applicant has interview. if does, displays time:
     function checkifHasInterview(){
       if (_.isEmpty(vm.applicant)){
         vm.appHasInterview = false;
-        //Go to login page if they are not loged in
-        $state.go('login');
+        //Go to login page if they are not logged in
+        //$state.go('login');
       }else{
         console.log(vm.applicant);
         interviewService.getAllFullInterviews().then(function(resp) {
@@ -83,11 +120,11 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     }
 
     function dayClick(date) {
-      console.log(vm.applicant);
+        //console.log(vm.applicant);
         //getInterviewForDay(date);
-        vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
+        //vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
         vm.selectedDate = $filter("date")(date, "MMMM d, y");
-        vm.msg = vm.selectedDate;
+        //vm.msg = vm.selectedDate;
         showTimes(moment(date).format('YYYY-MM-DD'));
     }
 
@@ -129,24 +166,38 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
             })
                 .then(function(selectedInterview) {
                     if(!_.isEmpty(vm.applicant)) {
-                        vm.msg = 'You selected interview "' + selectedInterview + '".';
-                        applicantService.addApplicant(vm.applicant).then(function(resp) {
-                            //resp is the newly added applicant
-                            interviewService.assignApplicantToInterview(selectedInterview, resp).then(function(resp){
-                                vm.completedInt = selectedInterview;
-                                vm.completedInt.datePretty = moment(vm.completedInt.startDate).format('MM/D/YYYY');
-                                vm.completedInt.startDatePretty = moment(vm.completedInt.startDate).format('h:mm a');
-                                vm.completedInt.endDatePretty = moment(vm.completedInt.endDate).format('h:mm a');
-                                setDayContent(date);
-                                vm.completedSignup = true;
-                            })
+                        interviewService.getInterview(selectedInterview.id).then(function(resp) {
+                            if(resp.taken) {
+                                vm.msg = 'It seems someone has already selected this interview time. Please try refreshing the page and selecting a different time!';
+                                vm.displayInterviewMsgHasError = true;
+                                vm.displayInterviewMsg = true;
+                            }
+                            else {
+                                vm.msg = 'You selected interview "' + selectedInterview + '".';
+                                vm.displayInterviewMsgHasError = false;
+                                applicantService.addApplicant(vm.applicant).then(function(resp) {
+                                    //resp is the newly added applicant
+                                    interviewService.assignApplicantToInterview(selectedInterview, resp).then(function(resp){
+                                        vm.completedInt = selectedInterview;
+                                        vm.completedInt.datePretty = moment(vm.completedInt.startDate).format('MM/D/YYYY');
+                                        vm.completedInt.startDatePretty = moment(vm.completedInt.startDate).format('h:mm a');
+                                        vm.completedInt.endDatePretty = moment(vm.completedInt.endDate).format('h:mm a');
+                                        vm.completedSignup = true;
+                                    })
+                                })
+                            }
                         })
                     }
                     else {
                         vm.msg = 'No applicant was available to be sent. Please try logging in again!';
+                        vm.displayInterviewMsgHasError = true;
+                        vm.displayInterviewMsg = true;
                     }
                 }, function() {
-                    vm.msg = 'You cancelled the dialog.';
+                    // On cancel of the dialog
+                    vm.msg = '';
+                    vm.displayInterviewMsgHasError = false;
+                    vm.displayInterviewMsg = false;
                 });
         }, function(error) {
 
@@ -170,51 +221,25 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     }
 
     function setDayContent(date) {
-      var formatDay = moment(date).format('YYYY-MM-DD');
-      return interviewService.queryDay(formatDay).then(function(resp) {
-          var text = '';
-          var count = 0;
-          // If there are any interview returned
-          if(resp.length > 0){
-              vm.noInterviewsOnDay[formatDay] = false;
-              _.forEach(resp, function(index){
-                  count  = count + 1;
-              });
-              text = count + ' open';
-          }
-          //no interviews
-          else {
-              var day = moment(date).format('D');
-              vm.noInterviewsOnDay[formatDay] = true;
-              text = '0 Open';
-          }
-          return "<p>"+text+"</p>";
-        });
+        var formatDay = moment(date).format('YYYY-MM-DD');
+        var text = '';
+        var interviewDay = vm.formattedInterviews[formatDay];
+        if(!interviewDay) {
+            text = '0 Open';
+            vm.noInterviewsOnDay[formatDay] = true;
+        }
+        else {
+            if(interviewDay.numInterviewsAvailable > 0) {
+                vm.noInterviewsOnDay[formatDay] = false;
+            }
+            else {
+                vm.noInterviewsOnDay[formatDay] = true;
+            }
 
+            text = '' + interviewDay.numInterviewsAvailable + ' Open';
+        }
 
-
-        // You could also use a promise.
-        // var deferred = $q.defer();
-        // $timeout(function() {
-        //     deferred.resolve("<p></p>");
-        // }, 1000);
-        // return deferred.promise;
-
-        // OR
-        // var innerHtml;
-        // interviewService.query(date).then( function(resp) {
-        // resp contains data returned by controller (aka a list of times)
-        // for each ()
-        // innerHtml += data.get(i)
-        // return innerHtml
-
-        //OR
-        // Just tell the user if there are any available times left for that day, and then display the times after they choose
-        // this is probably the right call
-        // interviewService.checkDay(date).then(function(resp) {
-        // resp is just a boolean, true of false
-        // if (resp)
-        // return "there is stuff here. Maybe highlight the day?
+        return "<p>"+text+"</p>";
 
     }
 

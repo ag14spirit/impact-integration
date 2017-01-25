@@ -32,6 +32,10 @@ p {
 .diffMonth {
   background-color: darkgrey; }
 
+.msgError {
+  color: red;
+  font-weight: bold; }
+
 .logoImage {
   height: auto;
   max-height: 55px;
