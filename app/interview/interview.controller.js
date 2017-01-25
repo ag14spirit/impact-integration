@@ -4,9 +4,9 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment','$state','$stateParams', '$q', '$scope'];
+InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment','$state','$stateParams', '$q', '$scope', '$mdToast'];
 
-function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, $state, $stateParams, $q, $scope) {
+function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, $state, $stateParams, $q, $scope, $mdToast) {
 
     var vm = this;
     vm.setDirection = setDirection;
@@ -76,7 +76,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
       if (_.isEmpty(vm.applicant)){
         vm.appHasInterview = false;
         //Go to login page if they are not logged in
-        //$state.go('login');
+        $state.go('login');
       }else{
         console.log(vm.applicant);
         interviewService.getAllFullInterviews().then(function(resp) {
@@ -222,15 +222,27 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
         return interviews;
     }
 
-    function DialogController($scope, $mdDialog, selectedDate, interviews) {
+    function DialogController($scope, $mdDialog, $mdToast, selectedDate, interviews) {
         $scope.selectedDate = selectedDate;
         $scope.interviews = interviews;
-        console.log(interviews);
+
         $scope.$on('timer-tick', function (event, args) {
-            interviewService.queryDay(moment(selectedDate).format('YYYY-MM-DD')).then(function(resp) {
-                $scope.interviews = formatInterviewsOnDay(resp);
-            });
+            // after first tick
+            if(args.millis > 0) {
+                interviewService.queryDay(moment(selectedDate).format('YYYY-MM-DD')).then(function(resp) {
+                    $scope.interviews = formatInterviewsOnDay(resp);
+                    $mdToast.show(
+                        $mdToast.simple({
+                            textContent : 'The available interview times have been refreshed!',
+                            parent : $('[id^=dialogContent]'),
+                            hideDelay: 3000,
+                            position: 'top'
+                        })
+                    );
+                });
+            }
         });
+
         $scope.hide = function() {
             $mdDialog.hide();
         };
