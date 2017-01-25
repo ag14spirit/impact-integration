@@ -139,11 +139,22 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     function showTimes(date) {
 
         interviewService.queryDay(date).then(function(resp) {
-
+            //Allows us to put Room#i next to interviews with same start times
+            // 1<= i <= Number of identical times, room number is not stored in database
+            var interviewMap = new Map();
             _.forEach(resp, function(interview){
                 console.log(interview);
-                interview.startDatePretty = moment(interview.startDate).format('h:mm a');
-                interview.endDatePretty = moment(interview.endDate).format('h:mm a');
+                interview.startDatePretty = moment(interview.startDate).format('h:mm A');
+                interview.endDatePretty = moment(interview.endDate).format('h:mm A');
+                if(interviewMap.has(interview.startDatePretty)){
+                  var num = interviewMap.get(interview.startDatePretty);
+                  num = num + 1;
+                  interview.Room = "(Room #" + num + ")";
+                  interviewMap.set(interview.startDatePretty, num);
+                }else{
+                  interview.Room = "(Room #1)";
+                  interviewMap.set(interview.startDatePretty, 1);
+                }
             });
             resp.sort(function(a,b){
                 if ( a.startDate < b.startDate )
@@ -216,6 +227,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
         };
 
         $scope.answer = function(answer) {
+            console.log(answer);
             $mdDialog.hide(answer);
         };
     }

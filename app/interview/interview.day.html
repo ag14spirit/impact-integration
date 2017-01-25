@@ -12,9 +12,9 @@
 
         <md-dialog-content>
             <div class="md-dialog-content">
-                <md-radio-group ng-model="vm.interviewList">
+                <md-radio-group ng-model="vm.interviewList" required>
 
-                    <md-radio-button ng-repeat="i in interviews" ng-value="i">{{i.startDatePretty}} - {{i.endDatePretty}}</md-radio-button>
+                    <md-radio-button ng-repeat="i in interviews" ng-value="i">{{i.startDatePretty}} - {{i.endDatePretty}}    {{i.Room}}</md-radio-button>
 
                 </md-radio-group>
             </div>
@@ -22,9 +22,9 @@
 
         <md-dialog-actions layout="row">
             <span flex></span>
-            <md-button ng-click="answer(vm.interviewList)">
+            <md-button type="submit" class="md-raised md-primary" ng-disabled="vm.interviewDayForm.$invalid" ng-click="answer(vm.interviewList)">
                 Submit Interview Time
             </md-button>
         </md-dialog-actions>
-    </form>
+      </form>
 </md-dialog>
