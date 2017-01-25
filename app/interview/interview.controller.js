@@ -76,7 +76,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
       if (_.isEmpty(vm.applicant)){
         vm.appHasInterview = false;
         //Go to login page if they are not logged in
-        $state.go('login');
+        //$state.go('login');
       }else{
         console.log(vm.applicant);
         interviewService.getAllFullInterviews().then(function(resp) {
@@ -139,30 +139,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     function showTimes(date) {
 
         interviewService.queryDay(date).then(function(resp) {
-            //Allows us to put Room#i next to interviews with same start times
-            // 1<= i <= Number of identical times, room number is not stored in database
-            var interviewMap = new Map();
-            _.forEach(resp, function(interview){
-                console.log(interview);
-                interview.startDatePretty = moment(interview.startDate).format('h:mm A');
-                interview.endDatePretty = moment(interview.endDate).format('h:mm A');
-                if(interviewMap.has(interview.startDatePretty)){
-                  var num = interviewMap.get(interview.startDatePretty);
-                  num = num + 1;
-                  interview.Room = "(Room #" + num + ")";
-                  interviewMap.set(interview.startDatePretty, num);
-                }else{
-                  interview.Room = "(Room #1)";
-                  interviewMap.set(interview.startDatePretty, 1);
-                }
-            });
-            resp.sort(function(a,b){
-                if ( a.startDate < b.startDate )
-                  return -1;
-                if ( a.startDate > b.startDate )
-                  return 1;
-                return 0;
-            });
+
+            resp = formatInterviewsOnDay(resp);
 
             $mdDialog.show({
                 controller: DialogController,
@@ -215,9 +193,44 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
         });
     }
 
+    function formatInterviewsOnDay(interviews) {
+        //Allows us to put Room#i next to interviews with same start times
+        // 1<= i <= Number of identical times, room number is not stored in database
+        var interviewMap = new Map();
+        _.forEach(interviews, function(interview){
+            console.log(interview);
+            interview.startDatePretty = moment(interview.startDate).format('h:mm A');
+            interview.endDatePretty = moment(interview.endDate).format('h:mm A');
+            if(interviewMap.has(interview.startDatePretty)){
+                var num = interviewMap.get(interview.startDatePretty);
+                num = num + 1;
+                interview.Room = "(Room #" + num + ")";
+                interviewMap.set(interview.startDatePretty, num);
+            }else{
+                interview.Room = "(Room #1)";
+                interviewMap.set(interview.startDatePretty, 1);
+            }
+        });
+        interviews.sort(function(a,b){
+            if ( a.startDate < b.startDate )
+                return -1;
+            if ( a.startDate > b.startDate )
+                return 1;
+            return 0;
+        });
+
+        return interviews;
+    }
+
     function DialogController($scope, $mdDialog, selectedDate, interviews) {
         $scope.selectedDate = selectedDate;
         $scope.interviews = interviews;
+        console.log(interviews);
+        $scope.$on('timer-tick', function (event, args) {
+            interviewService.queryDay(moment(selectedDate).format('YYYY-MM-DD')).then(function(resp) {
+                $scope.interviews = formatInterviewsOnDay(resp);
+            });
+        });
         $scope.hide = function() {
             $mdDialog.hide();
         };

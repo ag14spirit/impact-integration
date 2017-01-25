@@ -13,6 +13,7 @@
         <md-dialog-content>
             <div class="md-dialog-content">
                 <md-radio-group ng-model="vm.interviewList" required>
+                <timer interval="30000" ng-hide="true"/>
 
                     <md-radio-button ng-repeat="i in interviews" ng-value="i">{{i.startDatePretty}} - {{i.endDatePretty}}    {{i.Room}}</md-radio-button>
 
