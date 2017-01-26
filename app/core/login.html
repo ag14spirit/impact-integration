@@ -42,6 +42,14 @@
                   <div ng-message="required">Valid email is required.</div>
                 </div>
             </md-input-container>
+
+            <md-input-container class="md-block">
+                <label>Confirm Email:</label>
+                <input name="emailConfrim" type="email" ng-pattern="{{applicant.emailAddress}}"ng-model="applicant.emailAddressConfirm" required>
+                <div ng-messages="loginForm.email.$error">
+                  <div ng-message="pattern">Emails must match</div>
+                </div>
+            </md-input-container>
             <md-radio-group ng-model="applicant.gender" class="md-primary" required>
               <md-radio-button value=true>Male</md-radio-button>
               <md-radio-button value=false>Female</md-radio-button>
