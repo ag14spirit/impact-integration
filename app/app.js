@@ -30,7 +30,7 @@ var app = angular.module('app', [
         })
         .state({
             name: 'error',
-            url: '/error',
+            //url: '/error',
             templateUrl: '/core/error.html'
         })
         .state({
