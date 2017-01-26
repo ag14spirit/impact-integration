@@ -7,7 +7,8 @@ angular
 adminResource.$inject = ['$resource'];
 
 function adminResource($resource) {
-    var ipAddress = 'http://70.117.102.80';
+    //var ipAddress = 'http://70.117.102.80'; //pi
+    var ipAddress = 'http://184.72.90.234:4000'; //aws instance
     return $resource(ipAddress + '/admin', {}, {
         verifyLogin: {
             url: ipAddress + '/admin/:password',

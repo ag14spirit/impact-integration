@@ -7,7 +7,8 @@ angular
 applicantResource.$inject = ['$resource'];
 
 function applicantResource($resource) {
-    var ipAddress = 'http://70.117.102.80';
+  //var ipAddress = 'http://70.117.102.80'; //pi
+  var ipAddress = 'http://184.72.90.234:4000'; //aws instance
     return $resource(ipAddress + '/applicant', {}, {
         addApplicant: {
             url: ipAddress + '/applicant/add',

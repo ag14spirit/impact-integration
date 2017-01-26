@@ -7,7 +7,8 @@ angular
 interviewResource.$inject = ['$resource'];
 
 function interviewResource($resource) {
-    var ipAddress = 'http://70.117.102.80';
+  //var ipAddress = 'http://70.117.102.80'; //pi
+  var ipAddress = 'http://184.72.90.234:4000'; //aws instance
     return $resource(ipAddress + '/interview', {}, {
         queryDay: {
             url: ipAddress + "/interview/day/:day/availability",
