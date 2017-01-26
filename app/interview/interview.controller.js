@@ -68,6 +68,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
             // Broadcasts to the directive to reset the data on the calendar
             $scope.$broadcast("call-setData");
             return resp;
+        }, function(){
+          $state.go('error');
         });
     }
 
@@ -96,6 +98,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                 vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm A');
               }
           });
+        }, function(){
+          $state.go('error');
         });
       }
     }
@@ -172,10 +176,16 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                                         vm.completedInt.startDatePretty = moment(vm.completedInt.startDate).format('h:mm A');
                                         vm.completedInt.endDatePretty = moment(vm.completedInt.endDate).format('h:mm A');
                                         vm.completedSignup = true;
-                                    })
-                                })
+                                    }, function(){
+                                      $state.go('error');
+                                    });
+                                }, function(){
+                                  $state.go('error');
+                                });
                             }
-                        })
+                        }, function(){
+                          $state.go('error');
+                        });
                     }
                     else {
                         vm.msg = 'No applicant was available to be sent. Please try logging in again!';
@@ -188,8 +198,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                     vm.displayInterviewMsgHasError = false;
                     vm.displayInterviewMsg = false;
                 });
-        }, function(error) {
-
+        }, function(){
+          $state.go('error');
         });
     }
 
@@ -239,6 +249,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                             position: 'top'
                         })
                     );
+                }, function(){
+                  $state.go('error');
                 });
             }
         });

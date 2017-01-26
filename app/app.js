@@ -29,6 +29,11 @@ var app = angular.module('app', [
             templateUrl: '/view1/view1.html'
         })
         .state({
+            name: 'error',
+            url: '/error',
+            templateUrl: '/core/error.html'
+        })
+        .state({
             name: 'applications',
             url: '/applications',
             templateUrl: '/applications/applications.html',

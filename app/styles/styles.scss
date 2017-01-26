@@ -53,3 +53,14 @@ p {
   background-color: $impact-bg-header;
   color: $impact-text-header;
 }
+
+.error-header{
+  color: red;
+}
+
+.error-image{
+  height: auto;
+  max-height: 40px;
+  width: auto;
+  max-width: 100%;
+}

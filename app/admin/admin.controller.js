@@ -84,6 +84,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
         }else{
           vm.loginResponse = "*Invalid Password*";
         }
+      }, function(){
+        $state.go('error');
       });
     }
 
@@ -113,6 +115,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
             // Broadcasts to the directive to reset the data on the calendar
             $scope.$broadcast("call-setData");
             return resp;
+        }, function(){
+          $state.go('error');
         });
 
     }
@@ -190,7 +194,7 @@ function AdminController(adminService, interviewService, applicantService, $filt
                       vm.msg = 'You cancelled the dialog.';
                   });
           }, function(error) {
-
+            $state.go('error');
           });
       }
 
@@ -241,6 +245,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                               position: 'top'
                           })
                       );
+                  }, function(){
+                    $state.go('error');
                   });
               }
           });
@@ -265,6 +271,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                     $scope.interviews.splice(index,1);
                     interviewService.removeInterview(interview.id).then(function(resp) {
                         $scope.showTimes(moment($scope.currDate).format('YYYY-MM-DD'));
+                    }, function(){
+                      $state.go('error');
                     });
                   }, function() {
                     //Cancel the delete
@@ -299,6 +307,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                     $scope.interviews.splice(index,1);
                     interviewService.removeInterview(interview.id).then(function(resp) {});
                   }
+              }, function(){
+                $state.go('error');
               });
             }
           };
@@ -326,6 +336,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                   addedInteview.endDatePretty = moment(addedInteview.endDate).format('h:mm A');
                   addedInteview.applicantFull = "<Empty>";
                   $scope.interviews.push(addedInteview);
+                }, function(){
+                  $state.go('error');
                 });
             }
           }
@@ -362,6 +374,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                 });
                 vm.apps = apps;
                 console.log(vm.apps);
+              }, function(){
+                $state.go('error');
               });
         }
 
@@ -412,7 +426,11 @@ function AdminController(adminService, interviewService, applicantService, $filt
                   loadAllFullInterviews();
                   vm.appActive = false;
                   vm.moveIntActive = false;
+                }, function(){
+                  $state.go('error');
                 });
+              }, function(){
+                $state.go('error');
               });
             }, function() {
               //JK, don't delete
@@ -495,8 +513,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                         //Reload on Dialog cancel
                         getAllInterviewsFormattedObject();
                     });
-            }, function(error) {
-
+            }, function(){
+              $state.go('error');
             });
         }
         //Controller for the Add/Move calendar
@@ -517,6 +535,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                                 position: 'top'
                             })
                         );
+                    }, function(){
+                      $state.go('error');
                     });
                 }
             });
@@ -653,8 +673,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                         vm.msg = 'You cancelled the dialog.';
                         getAllInterviewsFormattedObject();
                     });
-            }, function(error) {
-
+            }, function(){
+              $state.go('error');
             });
         }
 
@@ -716,7 +736,11 @@ function AdminController(adminService, interviewService, applicantService, $filt
                         .ariaLabel('Alert Dialog Demo')
                         .ok('OK')
                     );
+                  }, function(){
+                    $state.go('error');
                   });
+                }, function(){
+                  $state.go('error');
                 });
               }
             }, function() {
@@ -760,7 +784,11 @@ function AdminController(adminService, interviewService, applicantService, $filt
                         .ariaLabel('Alert Dialog Demo')
                         .ok('OK')
                     );
+                  }, function(){
+                    $state.go('error');
                   });
+                }, function(){
+                  $state.go('error');
                 });
               }
             }, function() {
@@ -797,6 +825,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
             return 0;
           });
           vm.allAppSort = resp;
+        }, function(){
+          $state.go('error');
         });
         //get intervies sorted by date
         interviewService.queryAll().then(function(resp) {
@@ -839,6 +869,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
             return 0;
           });
           vm.allIntSort = resp;
+        }, function(){
+          $state.go('error');
         });
       }
 

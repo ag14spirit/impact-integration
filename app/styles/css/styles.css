@@ -45,3 +45,12 @@ p {
 .md-toolbar-tools {
   background-color: #242424;
   color: white; }
+
+.error-header {
+  color: red; }
+
+.error-image {
+  height: auto;
+  max-height: 40px;
+  width: auto;
+  max-width: 100%; }
