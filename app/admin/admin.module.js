@@ -1,4 +1,4 @@
 'use strict';
 
 angular
-    .module('app.admin', ['ngSanitize','materialCalendar','materialAdminCalendar','ngJsonExportExcel']);
+    .module('app.admin', ['ngSanitize','materialCalendar','materialAdminCalendar','ngJsonExportExcel', 'timer']);

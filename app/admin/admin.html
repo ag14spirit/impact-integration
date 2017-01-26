@@ -33,7 +33,7 @@
     <md-tab label="Interviews" >
       <md-content layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
         <h4>Edit Interview Times:</h4>
-
+        <timer interval="15000" ng-hide="true"/>
           <!-- <h4 flex>View and Edit Interview Times</h4> -->
             <div flex style="height: 600px; " layout-fill>
               <admin-calendar-md  layout layout-fill
@@ -109,7 +109,7 @@
                              calendar-direction="direction"
                              on-prev-month="vm.prevMonth"
                              on-next-month="vm.nextMonth"
-                             on-day-click="vm.interviewDayClick"
+                             on-day-click="vm.appCalDayClick"
                              title-format="'MMMM y'"
                              ng-model='vm.selectedDate'
                              week-starts-on="firstDayOfWeek"
@@ -118,7 +118,7 @@
                              day-label-format="'EEE'"
                              day-label-tooltip-format="'EEEE'"
                              day-tooltip-format="'fullDate'"
-                             day-content="vm.interviewSetDayContent"
+                             day-content="vm.appCalSetDayContent"
                              disable-future-selection="false"
                              no-interviews-on-day="vm.noAvailInterviewsOnDay"
                 ></calendar-md>
@@ -169,13 +169,13 @@
                                          day-label-format="'EEE'"
                                          day-label-tooltip-format="'EEEE'"
                                          day-tooltip-format="'fullDate'"
-                                         day-content="vm.interviewSetDayContent"
+                                         day-content="vm.appCalSetDayContent"
                                          disable-future-selection="false"
                                          no-interviews-on-day="vm.noAvailInterviewsOnDay"
                             ></calendar-md>
                         </div>
 
-                        <md-button type="submit" layout-fill class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-click="vm.showAddCalendar()">Assign To Interview</md-button>
+                        <md-button type="submit" layout-fill class="md-raised md-primary" ng-disabled="loginForm.$invalid" ng-show="vm.addingApp && !vm.addAppActive" ng-click="vm.showAddCalendar()">Assign To Interview</md-button>
                     </form>
                 </div>
             </md-content>

@@ -92,8 +92,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                 vm.existingInterview = interview;
                 console.log("test");
                 vm.existingInterview.datePretty = moment(interview.startDate).format('MM/D/YYYY');
-                vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm a');
-                vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm a');
+                vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm A');
+                vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm A');
               }
           });
         });
@@ -157,7 +157,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                     if(!_.isEmpty(vm.applicant)) {
                         interviewService.getInterview(selectedInterview.id).then(function(resp) {
                             if(resp.taken) {
-                                vm.msg = 'It seems someone has already selected this interview time. Please try refreshing the page and selecting a different time!';
+                                vm.msg = 'It seems someone has just selected this interview time. Please try refreshing the page and selecting a different time!';
                                 vm.displayInterviewMsgHasError = true;
                                 vm.displayInterviewMsg = true;
                             }
@@ -169,8 +169,8 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                                     interviewService.assignApplicantToInterview(selectedInterview, resp).then(function(resp){
                                         vm.completedInt = selectedInterview;
                                         vm.completedInt.datePretty = moment(vm.completedInt.startDate).format('MM/D/YYYY');
-                                        vm.completedInt.startDatePretty = moment(vm.completedInt.startDate).format('h:mm a');
-                                        vm.completedInt.endDatePretty = moment(vm.completedInt.endDate).format('h:mm a');
+                                        vm.completedInt.startDatePretty = moment(vm.completedInt.startDate).format('h:mm A');
+                                        vm.completedInt.endDatePretty = moment(vm.completedInt.endDate).format('h:mm A');
                                         vm.completedSignup = true;
                                     })
                                 })
