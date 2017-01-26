@@ -60,7 +60,7 @@
     <md-tab label="Applicants">
         <md-content layout-align="center center" layout="column" layout-padding flex="80" flex-offset="10">
           <h4>Edit Applicant Interview Time or Delete Applicant:</h4>
-          <div  layout-fill layout-gt-xs="row">
+          <div  layout-fill layout-gt-sm="row">
             <md-autocomplete
 
                 layout-fill
@@ -83,7 +83,7 @@
             <md-button class="md-primary md-raised" ng-click="vm.loadAllFullInterviews()">Refresh</md-button>
           </div>
           <md-subheader class="md-primary">Edit Applicant:</md-subheader>
-            <div  layout-fill layout-gt-xs="row">
+            <div  layout-fill layout-gt-sm="row">
               <md-input-container flex="35">
                 <label>Applicant:</label>
                 <input ng-model="vm.currApp.fullDisplayName" disabled>
@@ -123,7 +123,7 @@
                              no-interviews-on-day="vm.noAvailInterviewsOnDay"
                 ></calendar-md>
             </div>
-            <md-content layout="row" ng-show="vm.addingApp" layout-align="center center">
+            <md-content layout-gt-sm="row" ng-show="vm.addingApp" layout-align="center center">
                 <div layout-align="center center">
                     <form name="loginForm">
                         <div layout-gt-sm="row">
@@ -196,7 +196,7 @@
           <h4>Export the Current Interviews and Applicants</h4>
           <h5>Use the update button before exporting to ensure latest list</h5>
           <md-button class="md-raised md-primary" ng-click="vm.updateExportLists()">Update Lists</md-button>
-          <md-content layout="row" layout-align="center center"  layout-padding>
+          <md-content layout-gt-sm="row" layout-align="center center"  layout-padding>
             <md-button class="md-raised md-primary" ng-json-export-excel data="vm.allIntSort" separator="," report-fields="{'datePretty': 'Interview Date', startDatePretty: 'Start', endDatePretty: 'End', 'applicant.fullName': 'Full Name', 'applicant.firstName': 'First Name', 'applicant.lastName': 'Last Name', 'applicant.emailAddress': 'Email', 'applicant.genderPretty': 'Gender'}", filename="'interviews'">Export Interview List</md-button>
             <md-button class="md-raised md-primary" ng-json-export-excel data="vm.allAppSort" separator="," report-fields="{'applicant.fullName': 'Full Name', 'applicant.firstName': 'First Name', 'applicant.lastName': 'Last Name', 'applicant.emailAddress': 'Email', 'applicant.genderPretty': 'Gender', 'datePretty': ' Interview Date', startDatePretty: 'Start', endDatePretty: 'End'}", filename="'applicants'">Export Applicant List</md-button>
           </md-content>
@@ -207,7 +207,7 @@
       <md-content layout="column" layout-align="center center"  layout-padding>
         <h4>Delete All Applicants or Delete All Interivews</h4>
         <h5>This should only happen AFTER SELECTIONS for Counselors</h5>
-        <md-content layout="row" layout-align="center center"  layout-padding>
+        <md-content layout-gt-sm="row" layout-align="center center"  layout-padding>
           <md-button class="md-raised md-primary" ng-click="vm.clearAllApps()">Clear All Applicants</md-button>
           <md-button class="md-raised md-primary" ng-click="vm.clearAllInterviews()">Clear All Interviews and Apps</md-button>
         </md-content>
