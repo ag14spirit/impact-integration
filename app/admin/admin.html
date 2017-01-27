@@ -15,7 +15,7 @@
   <h3>Please Enter Password:</h3>
   <div flex="50" layout-align="center center">
     <form name="adminLogin">
-        <md-input-container layout-fill class="md-block" flex-gt-sm>
+        <md-input-container layout-fill class="md-block md-accent" flex-gt-sm>
             <label>Password</label>
             <input name="password" type="password" ng-model="vm.passwordField" required>
             <div ng-messages="adminLogin.password.$error">
@@ -84,19 +84,19 @@
           </div>
           <md-subheader class="md-primary">Edit Applicant:</md-subheader>
             <div  layout-fill layout-gt-sm="row">
-              <md-input-container flex="35">
+              <md-input-container flex-gt-sm="35" flex>
                 <label>Applicant:</label>
                 <input ng-model="vm.currApp.fullDisplayName" disabled>
               </md-input-container>
-              <md-input-container flex="20">
+              <md-input-container flex-gt-sm="20" flex>
                 <label>Interview Date:</label>
                 <input ng-model="vm.currApp.datePretty" disabled>
               </md-input-container>
-              <md-input-container flex="20">
+              <md-input-container flex-gt-sm="20" flex>
                 <label>Interview Start:</label>
                 <input ng-model="vm.currApp.startDatePretty" disabled>
               </md-input-container>
-              <md-input-container flex="20">
+              <md-input-container flex-gt-sm="20" flex>
                 <label>Interview End:</label>
                 <input ng-model="vm.currApp.endDatePretty" disabled>
               </md-input-container>
@@ -127,7 +127,7 @@
                 <div layout-align="center center">
                     <form name="loginForm">
                         <div layout-gt-sm="row">
-                            <md-input-container class="md-block" flex-gt-sm>
+                            <md-input-container class="md-block md-accent" flex-gt-sm>
                                 <label>First Name</label>
                                 <input name="fistName" ng-model="vm.newApplicant.firstName" required>
                                 <div ng-messages="loginForm.firstName.$error">
@@ -135,7 +135,7 @@
                                 </div>
                             </md-input-container>
 
-                            <md-input-container class="md-block" flex-gt-sm>
+                            <md-input-container class="md-block md-accent" flex-gt-sm>
                                 <label>Last Name</label>
                                 <input name="lastName" ng-model="vm.newApplicant.lastName" required>
                                 <div ng-messages="loginForm.lastName.$error">
@@ -144,21 +144,21 @@
                             </md-input-container>
                         </div>
 
-                        <md-input-container class="md-block">
+                        <md-input-container class="md-block md-accent">
                             <label>Email Address</label>
                             <input name="email" type="email" ng-model="vm.newApplicant.emailAddress" required>
                             <div ng-messages="loginForm.email.$error">
                               <div ng-message="required">Valid email is required.</div>
                             </div>
                         </md-input-container>
-                        <md-input-container class="md-block">
+                        <md-input-container class="md-block md-accent">
                             <label>Confirm Email:</label>
                             <input name="emailConfrim" type="email" ng-pattern="{{vm.newApplicant.emailAddress}}"ng-model="vm.newApplicant.emailAddressConfirm" required>
                             <div ng-messages="loginForm.email.$error">
                               <div ng-message="pattern">Emails must match</div>
                             </div>
                         </md-input-container>
-                        <md-radio-group ng-model="vm.newApplicant.gender" class="md-primary" required>
+                        <md-radio-group ng-model="vm.newApplicant.gender" class="md-accent" required>
                           <md-radio-button value=true>Male</md-radio-button>
                           <md-radio-button value=false>Female</md-radio-button>
                         </md-radio-group>

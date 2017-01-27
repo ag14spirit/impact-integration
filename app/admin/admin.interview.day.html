@@ -42,7 +42,7 @@
               <div layout-gt-sm="row">
               <form name="addinterviewForm" >
 
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block md-accent" flex-gt-sm>
                     <label>Start Time:</label>
                     <input type="time" ng-model="startDate"
                       placeholder="HH:mm:ss"  required />
@@ -51,7 +51,7 @@
                     </div>
                 </md-input-container>
 
-                  <md-input-container class="md-block" flex-gt-sm>
+                  <md-input-container class="md-block md-accent" flex-gt-sm>
                       <label>End Time:</label>
                       <input type="time"  ng-model="endDate"
                         placeholder="HH:mm:ss"  required />
@@ -59,7 +59,7 @@
                         <div ng-message="required">End Time is required.</div>
                       </div>
                   </md-input-container>
-                  <md-input-container class="md-block" flex-gt-sm>
+                  <md-input-container class="md-block md-accent" flex-gt-sm>
                       <label>Number of Slots:</label>
                       <input type="number"  min="1" max="5" ng-model="numberOfSlots"
                          required />

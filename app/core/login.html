@@ -18,7 +18,7 @@
     <div flex="50" layout-align="center center">
         <form name="loginForm">
             <div layout-gt-sm="row">
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block md-accent" flex-gt-sm>
                     <label>First Name</label>
                     <input name="fistName" ng-model="applicant.firstName" required>
                     <div ng-messages="loginForm.firstName.$error">
@@ -26,7 +26,7 @@
                     </div>
                 </md-input-container>
 
-                <md-input-container class="md-block" flex-gt-sm>
+                <md-input-container class="md-block md-accent" flex-gt-sm>
                     <label>Last Name</label>
                     <input name="lastName" ng-model="applicant.lastName" required>
                     <div ng-messages="loginForm.lastName.$error">
@@ -35,7 +35,7 @@
                 </md-input-container>
             </div>
 
-            <md-input-container class="md-block">
+            <md-input-container class="md-block md-accent">
                 <label>Email Address (Please use the email from you application):</label>
                 <input name="email" type="email" ng-model="applicant.emailAddress" required>
                 <div ng-messages="loginForm.email.$error">
@@ -43,14 +43,14 @@
                 </div>
             </md-input-container>
 
-            <md-input-container class="md-block">
+            <md-input-container class="md-block md-accent">
                 <label>Confirm Email:</label>
                 <input name="emailConfrim" type="email" ng-pattern="{{applicant.emailAddress}}"ng-model="applicant.emailAddressConfirm" required>
                 <div ng-messages="loginForm.email.$error">
                   <div ng-message="pattern">Emails must match</div>
                 </div>
             </md-input-container>
-            <md-radio-group ng-model="applicant.gender" class="md-primary" required>
+            <md-radio-group ng-model="applicant.gender" class="md-accent" required>
               <md-radio-button value=true>Male</md-radio-button>
               <md-radio-button value=false>Female</md-radio-button>
             </md-radio-group>
