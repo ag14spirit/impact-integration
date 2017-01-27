@@ -5,9 +5,7 @@
 var app = angular.module('app', [
     'app.core',
     'app.admin',
-    'app.applications',
     'app.applicant',
-    'app.view1',
     'app.interview'
 ]).config(function($stateProvider, stateHelperProvider, $urlRouterProvider) {
     stateHelperProvider
