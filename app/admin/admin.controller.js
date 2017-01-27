@@ -854,7 +854,7 @@ function AdminController(adminService, interviewService, applicantService, $filt
               return -1;
             }
             if (a.startDate > b.startDate){
-              return -1;
+              return 1;
             }
             if(!_.isEmpty(a.applicant.lastName) && !_.isEmpty(b.applicant.lastName)){
               if ( a.applicant.lastName.toLowerCase() < b.applicant.lastName.toLowerCase() )
