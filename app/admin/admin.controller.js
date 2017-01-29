@@ -14,6 +14,7 @@ function AdminController(adminService, interviewService, applicantService, $filt
     vm.verifyLogin = verifyLogin;
     vm.validatedLogin = false;
     vm.passwordField = "";
+    vm.password = "";
     vm.loginResponse = "";
 
     //Interview Tab variables
@@ -77,6 +78,7 @@ function AdminController(adminService, interviewService, applicantService, $filt
       adminService.verifyLogin(vm.passwordField).then(function(resp) {
         console.log(resp);
         if(resp.isMatch){
+          vm.password = vm.passwordField;
           vm.loginResponse = "";
           vm.validatedLogin = true;
           getAllInterviewsFormattedObject();
@@ -725,8 +727,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                 );
               }else{
                 //ACTUALLY DELETE
-                interviewService.removeAllAppsFromInterviews().then(function(resp){
-                  applicantService.deleteAllApplicants().then(function(resp){
+                interviewService.removeAllAppsFromInterviews(vm.password).then(function(resp){
+                  applicantService.deleteAllApplicants(vm.password).then(function(resp){
                     $mdDialog.show(
                       $mdDialog.alert()
                         .parent(angular.element(document.querySelector('#popupContainer')))
@@ -760,7 +762,7 @@ function AdminController(adminService, interviewService, applicantService, $filt
               .cancel('Cancel');
 
             $mdDialog.show(confirm).then(function(result) {
-              //DELETE
+              //cancel delete
               if(result != "DELETE"){
                 $mdDialog.show(
                   $mdDialog.alert()
@@ -773,8 +775,8 @@ function AdminController(adminService, interviewService, applicantService, $filt
                 );
               }else{
                 //ACTUALLY DELETE
-                interviewService.deleteAllInterviews().then(function(resp){
-                  applicantService.deleteAllApplicants().then(function(resp){
+                interviewService.deleteAllInterviews(vm.password).then(function(resp){
+                  applicantService.deleteAllApplicants(vm.password).then(function(resp){
                     $mdDialog.show(
                       $mdDialog.alert()
                         .parent(angular.element(document.querySelector('#popupContainer')))

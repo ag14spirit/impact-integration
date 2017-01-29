@@ -49,9 +49,9 @@ function interviewService(interviewResource) {
         console.log('removing ' + applicant + ' from interview with id = ' + interview.id);
         return interviewResource.removeApplicantToInterview({interviewId: interview.id}).$promise;
     }
-    function removeAllAppsFromInterviews() {
+    function removeAllAppsFromInterviews(password) {
         console.log('Removing All Applicants from Interviews');
-        return interviewResource.removeAllAppsFromInterviews().$promise;
+        return interviewResource.removeAllAppsFromInterviews({password: password}).$promise;
     }
 
     function addInterview(interview){
@@ -69,9 +69,9 @@ function interviewService(interviewResource) {
       return interviewResource.getAllFullInterviews().$promise;
     }
 
-    function deleteAllInterviews(){
+    function deleteAllInterviews(password){
       console.log('Deleting All Interviews (Database Reset)');
-      return interviewResource.deleteAllInterviews().$promise;
+      return interviewResource.deleteAllInterviews({password: password}).$promise;
     }
 
 }

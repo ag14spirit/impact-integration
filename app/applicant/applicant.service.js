@@ -28,9 +28,9 @@ function applicantService (applicantResource) {
         console.log('Removing applicant with id: ' + applicantId);
         return applicantResource.removeApplicant({applicantId: applicantId}).$promise;
     }
-    function deleteAllApplicants() {
+    function deleteAllApplicants(password) {
         console.log('Deleting All Applicants');
-        return applicantResource.deleteAllApplicants().$promise;
+        return applicantResource.deleteAllApplicants({password: password}).$promise;
     }
 
 }
