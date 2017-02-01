@@ -60,7 +60,7 @@ function interviewResource($resource) {
             }
         },
         removeAllAppsFromInterviews: {
-            url: ipAddress + '/interview/removeAllApplicants',
+            url: ipAddress + '/interview/removeAllApplicants/:password',
             method: 'GET',
             params: {
                 password: '@password'
@@ -76,7 +76,7 @@ function interviewResource($resource) {
           method: 'GET'
         },
         deleteAllInterviews:{
-          url: ipAddress + '/interview/deleteAllInterviews',
+          url: ipAddress + '/interview/deleteAllInterviews/:password',
           method: 'GET',
           params: {
               password: '@password'
