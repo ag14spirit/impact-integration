@@ -19,7 +19,9 @@
         <p>Please email <a href="mailto:interviews@impactretreat.com?Subject=Interview%20Signup%20Question" target="_top">interviews@impactretreat.com</a> to change times or with any other questions.</p>
     </md-content>
 
-    <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview && !vm.completedSignup" flex="80" flex-offset="10">
+    <md-content layout-align="center center" layout="column"  ng-show="false" flex="80" flex-offset="10">
+      <!-- close new signups with above line, open with below line -->
+    <!-- <md-content layout-align="center center" layout="column"  ng-show="!vm.appHasInterview && !vm.completedSignup" flex="80" flex-offset="10"> -->
       <h4>Please Sign up for an Interview:</h4>
         <timer interval="15000" ng-hide="true"/>
         <div layout-align="center" layout="row" ng-class="{'msgError': vm.displayInterviewMsgHasError}" layout-padding ng-hide="!vm.displayInterviewMsg">
