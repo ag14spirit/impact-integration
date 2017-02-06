@@ -96,6 +96,9 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                 vm.existingInterview.datePretty = moment(interview.startDate).format('MM/D/YYYY');
                 vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm A');
                 vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm A');
+              }else{
+                ///Used to direct new logins to closed page, should be uncommented after interview signups close
+                $state.go('closed');
               }
           });
         }, function(){
