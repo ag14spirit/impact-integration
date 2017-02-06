@@ -164,7 +164,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                     if(!_.isEmpty(vm.applicant)) {
                         interviewService.getInterview(selectedInterview.id).then(function(resp) {
                             if(resp.taken) {
-                                vm.msg = 'It seems someone has just selected this interview time. Please try refreshing the page and selecting a different time!';
+                                vm.msg = 'It seems someone has just selected this interview time. Please try selecting a different time!';
                                 vm.displayInterviewMsgHasError = true;
                                 vm.displayInterviewMsg = true;
                             }

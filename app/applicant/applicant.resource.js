@@ -25,7 +25,7 @@ function applicantResource($resource) {
           }
         },
         deleteAllApplicants: {
-          url: ipAddress + '/applicant/deleteAllApplicants',
+          url: ipAddress + '/applicant/deleteAllApplicants/:password',
           method: 'GET',
           params: {
               password: '@password'
