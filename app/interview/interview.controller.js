@@ -4,9 +4,9 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment','$state','$stateParams', '$q', '$scope', '$mdToast'];
+InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment', 'closed', '$state','$stateParams', '$scope'];
 
-function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, $state, $stateParams, $q, $scope, $mdToast) {
+function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, closed, $state, $stateParams, $scope) {
 
     var vm = this;
     vm.setDirection = setDirection;
@@ -38,18 +38,9 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     });
 
     checkifHasInterview();
-    //getAllInterviewsFormattedObject();
-
-    // vm.applicant = {
-    //     firstName : "Bob",
-    //     lastName : "Sagot",
-    //     emailAddress : "bsag@gmail.com",
-    //     gender : true
-    // };
 
     // Function to grab all interviews at once
     function getAllInterviewsFormattedObject() {
-        console.log('Grabbing all Interviews from server');
         vm.allInterviews = interviewService.queryAll().then(function(resp){
             vm.formattedInterviews = {};
             _.forEach(resp, function(interview) {
@@ -80,27 +71,24 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
         //Go to login page if they are not logged in
         $state.go('login');
       }else{
-        console.log(vm.applicant);
         interviewService.getAllFullInterviews().then(function(resp) {
           //Match email, firstName, and LastName
-          console.log(resp);
-          _.forEach(resp, function(interview){
-            if(
-                (interview.applicant.firstName.toLowerCase() == vm.applicant.firstName.toLowerCase()) &&
-                (interview.applicant.lastName.toLowerCase() == vm.applicant.lastName.toLowerCase()) &&
-                (interview.applicant.emailAddress == vm.applicant.emailAddress)
-              ){
-                vm.appHasInterview = true;
-                vm.existingInterview = interview;
-                console.log("test");
-                vm.existingInterview.datePretty = moment(interview.startDate).format('MM/D/YYYY');
-                vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm A');
-                vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm A');
-              }else{
-                ///Used to direct new logins to closed page, should be uncommented after interview signups close
+            _.forEach(resp, function(interview){
+                if( (interview.applicant.firstName.toLowerCase() == vm.applicant.firstName.toLowerCase()) &&
+                    (interview.applicant.lastName.toLowerCase() == vm.applicant.lastName.toLowerCase()) &&
+                    (interview.applicant.emailAddress == vm.applicant.emailAddress) ) {
+                        vm.appHasInterview = true;
+                        vm.existingInterview = interview;
+                        vm.existingInterview.datePretty = moment(interview.startDate).format('MM/D/YYYY');
+                        vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm A');
+                        vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm A');
+                        return false;
+                  }
+              });
+            // Used to direct new logins to closed page if signups are closed
+            if(!vm.appHasInterview && closed) {
                 $state.go('closed');
-              }
-          });
+            }
         }, function(){
           $state.go('error');
         });
@@ -127,11 +115,7 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
     }
 
     function dayClick(date) {
-        //console.log(vm.applicant);
-        //getInterviewForDay(date);
-        //vm.msg = "You clicked " + $filter("date")(date, "MMM d, y h:mm:ss a Z");
         vm.selectedDate = $filter("date")(date, "MMMM d, y");
-        //vm.msg = vm.selectedDate;
         showTimes(moment(date).format('YYYY-MM-DD'));
     }
 
@@ -211,7 +195,6 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
         // 1<= i <= Number of identical times, room number is not stored in database
         var interviewMap = new Map();
         _.forEach(interviews, function(interview){
-            console.log(interview);
             interview.startDatePretty = moment(interview.startDate).format('h:mm A');
             interview.endDatePretty = moment(interview.endDate).format('h:mm A');
             if(interviewMap.has(interview.startDatePretty)){
@@ -267,7 +250,6 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
         };
 
         $scope.answer = function(answer) {
-            console.log(answer);
             $mdDialog.hide(answer);
         };
     }
