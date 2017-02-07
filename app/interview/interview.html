@@ -13,8 +13,20 @@
 
 <md-content>
     <md-content layout-align="center center" ng-show="vm.appHasInterview" layout="column"  flex="80" flex-offset="10">
-      <p>{{vm.existingInterview.applicant.firstName}} {{vm.existingInterview.applicant.lastName}} is scheduled for an interview
-        at {{vm.existingInterview.datePretty}} from {{vm.existingInterview.startDatePretty}} to {{vm.existingInterview.endDatePretty}}.</p>
+      <p><b>{{vm.existingInterview.applicant.firstName}} {{vm.existingInterview.applicant.lastName}} is scheduled for an interview
+        at {{vm.existingInterview.datePretty}} from {{vm.existingInterview.startDatePretty}} to {{vm.existingInterview.endDatePretty}}.</b></p>
+
+      <addtocalendar
+              start-date={{vm.existingInterview.startDate}}
+              end-date={{vm.existingInterview.endDate}}
+              format="x"
+              title="Impact Interview"
+              location="700 University Dr E #107, College Station, TX 77840"
+              class-name="btn btn-sm btn-default dropdown-toggle"
+              description="Your impact interview is scheduled for this day and time. See you there!"
+              btn-text="If desired, you can add your interview to your calendar by selecting any of the following"
+              hover-text="Add to Calendar">
+      </addtocalendar>
 
         <p>Please email <a href="mailto:interviews@impactretreat.com?Subject=Interview%20Signup%20Question" target="_top">interviews@impactretreat.com</a> to change times or with any other questions.</p>
     </md-content>
