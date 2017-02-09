@@ -17,6 +17,10 @@
         at {{vm.existingInterview.datePretty}} from {{vm.existingInterview.startDatePretty}} to {{vm.existingInterview.endDatePretty}}.</b></p>
 
       <addtocalendar
+              analytics-on="click"
+              analytics-event="Added to Calendar - {{vm.existingInterview.applicant.emailAddress}}"
+              analytics-category="Added to Calendar"
+              analytics-label="{{vm.existingInterview.applicant.emailAddress}}"
               start-date={{vm.existingInterview.startDate}}
               end-date={{vm.existingInterview.endDate}}
               format="x"

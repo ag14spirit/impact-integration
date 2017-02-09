@@ -4,9 +4,9 @@ angular
     .module('app.interview')
     .controller('InterviewController', InterviewController);
 
-InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment', 'closed', '$state','$stateParams', '$scope'];
+InterviewController.$inject = ['interviewService', 'applicantService', '$filter', '$mdDialog', 'moment', 'closed', '$state','$stateParams', '$scope', '$analytics'];
 
-function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, closed, $state, $stateParams, $scope) {
+function InterviewController(interviewService, applicantService, $filter, $mdDialog, moment, closed, $state, $stateParams, $scope, $analytics) {
 
     var vm = this;
     vm.setDirection = setDirection;
@@ -82,11 +82,14 @@ function InterviewController(interviewService, applicantService, $filter, $mdDia
                         vm.existingInterview.datePretty = moment(interview.startDate).format('MM/D/YYYY');
                         vm.existingInterview.startDatePretty = moment(interview.startDate).format('h:mm A');
                         vm.existingInterview.endDatePretty = moment(interview.endDate).format('h:mm A');
+
+                        $analytics.eventTrack('Successful Login', {  category: 'Login', label: JSON.stringify(vm.applicant) });
                         return false;
                   }
               });
             // Used to direct new logins to closed page if signups are closed
             if(!vm.appHasInterview && closed) {
+                $analytics.eventTrack('Attempted New Sign-up, but Closed', {  category: 'Login', label: JSON.stringify(vm.applicant) });
                 $state.go('closed');
             }
         }, function(){

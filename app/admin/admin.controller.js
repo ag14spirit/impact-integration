@@ -4,9 +4,9 @@ angular
     .module('app.admin')
     .controller('AdminController', AdminController);
 
-AdminController.$inject = ['adminService','interviewService', 'applicantService', '$filter', '$mdDialog', 'TEST', 'moment','$state','$stateParams', '$q', '$scope', '$mdToast'];
+AdminController.$inject = ['adminService','interviewService', 'applicantService', '$filter', '$mdDialog', 'moment','$state', '$scope', '$analytics'];
 
-function AdminController(adminService, interviewService, applicantService, $filter, $mdDialog, TEST, moment, $state, $stateParams, $q, $scope, $mdToast)  {
+function AdminController(adminService, interviewService, applicantService, $filter, $mdDialog, moment, $state, $scope, $analytics)  {
     var vm = this;
 
 
@@ -81,10 +81,14 @@ function AdminController(adminService, interviewService, applicantService, $filt
           vm.password = vm.passwordField;
           vm.loginResponse = "";
           vm.validatedLogin = true;
+
+          $analytics.eventTrack('Successful Login', {  category: 'Admin', label: 'success' });
+
           getAllInterviewsFormattedObject();
           loadAllFullInterviews();
         }else{
           vm.loginResponse = "*Invalid Password*";
+          $analytics.eventTrack('Unsuccessful Login', {  category: 'Admin', label: 'bad login' });
         }
       }, function(){
         $state.go('error');
@@ -492,6 +496,9 @@ function AdminController(adminService, interviewService, applicantService, $filt
                                       vm.currApp.datePretty = moment(selectedInterview.startDate).format('MM/D/YYYY');
                                       vm.currApp.startDatePretty = moment(selectedInterview.startDate).format('h:mm A');
                                       vm.currApp.endDatePretty = moment(selectedInterview.endDate).format('h:mm A');
+
+                                      $analytics.eventTrack('Successful Interview Move', {  category: 'Admin', label: 'Moved' + vm.currApp.applicant.firstName + ' to new interview: ' + vm.currApp.datePretty + " at " + vm.currApp.startDatePretty});
+
                                       //Show confirmation dialog
                                       $mdDialog.show(
                                         $mdDialog.alert()

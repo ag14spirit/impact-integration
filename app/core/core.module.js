@@ -2,7 +2,7 @@
 
 angular
     .module('app.core', [
-        'ui.router', 'ui.router.stateHelper', 'ngMaterial', 'ngAnimate', 'ngResource'
+        'ui.router', 'ui.router.stateHelper', 'ngMaterial', 'ngAnimate', 'ngResource', 'angulartics', 'angulartics.google.analytics'
     ]).config(function ($mdThemingProvider) {
       var customPrimary = {
        '50': '#ffffff',
